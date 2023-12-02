@@ -15,7 +15,7 @@ function Navbar() {
   return (
     <header>
       <nav className="h-[4rem] flex items-center justify-around border-b border-primarycb px-2">
-        <div className="logo flex md:gap-5 gap-3 items-center mr-2 overflow-hidden bg-slate-500 px-1 ">
+        <div className="logo flex md:gap-5 gap-3 items-center mr-2 overflow-hidden px-1 ">
           <img src={logo} alt="logo" />
           <span className="text-[2rem] min-[450px]:block hidden font-bold ">
             Codebud
