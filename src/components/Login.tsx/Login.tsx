@@ -5,7 +5,7 @@ function Login() {
   return (
     <main
       className="flex items-center justify-center px-5"
-      style={{ height: "calc(100vh - 4rem)" }}
+      style={{ height: "calc(100vh - 13rem)" }}
     >
       <section className="w-80 sm:w-96 border border-black p-5 rounded-xl">
         <span className="text-3xl font-bold text-center block mb-5">Login</span>
