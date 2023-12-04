@@ -13,6 +13,7 @@ import Root from "./Root";
 import Homepage from "./components/homepage/Homepage";
 import Users from "./components/users/Users";
 import Questions from "./components/questions/Questions";
+import QuestionsForm from "./components/questionForm/QuestionsForm";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -22,7 +23,9 @@ const router = createBrowserRouter(
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
       <Route path="users" element={<Users />} />
-      <Route path="questions" element={<Questions />} />
+      <Route path="questions" element={<Questions />}>
+        <Route path="ask" element={<QuestionsForm />} />
+      </Route>
     </Route>
   )
 );
