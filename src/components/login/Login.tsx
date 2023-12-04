@@ -1,5 +1,6 @@
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { Link } from "react-router-dom";
 
 function Login() {
   return (
@@ -31,9 +32,9 @@ function Login() {
         </form>
         <span className="mt-5 block text-center ">
           Visiting for the first time ?{" "}
-          <a href="#" className="underline text-primarycb">
+          <Link to="/signup" className="underline text-primarycb">
             Signup here
-          </a>{" "}
+          </Link>{" "}
         </span>
       </section>
     </main>
