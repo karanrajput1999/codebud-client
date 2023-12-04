@@ -1,8 +1,14 @@
 import { cn } from "@/lib/utils";
 import { ChevronLeft } from "lucide-react";
-import { isElementOfType } from "react-dom/test-utils";
+import { Home, ShieldQuestion, Users } from "lucide-react";
+import { NavLink } from "react-router-dom";
 
-function HomepageMobileNavbar({ isOpen, setIsOpen }) {
+interface mobileNavbarTypes {
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+}
+
+function HomepageMobileNavbar({ isOpen, setIsOpen }: mobileNavbarTypes) {
   return (
     <section
       className={cn(
@@ -16,11 +22,59 @@ function HomepageMobileNavbar({ isOpen, setIsOpen }) {
         </button>
       </div>
 
-      <nav>
-        <ul>
-          <li>Home</li>
-          <li>Questions</li>
-          <li>Users</li>
+      <nav className="mt-20">
+        <ul className="flex flex-col items-end">
+          <li className="mb-2 pl-5">
+            <NavLink
+              to="/homepage"
+              className={({ isActive }) =>
+                `w-40 h-11 pl-5 text-xl font-bold ${
+                  isActive
+                    ? "text-white bg-primarycb rounded-l-xl"
+                    : "text-black"
+                }   flex justify-start items-center `
+              }
+            >
+              <span className="flex items-center gap-3">
+                {" "}
+                <Home /> Home
+              </span>
+            </NavLink>
+          </li>
+          <li className="mb-2 pl-5">
+            <NavLink
+              to="/questions"
+              className={({ isActive }) =>
+                `w-40 h-11 pl-5 text-xl font-bold ${
+                  isActive
+                    ? "text-white bg-primarycb rounded-l-xl"
+                    : "text-black"
+                }   flex justify-start items-center `
+              }
+            >
+              <span className="flex items-center gap-3">
+                <ShieldQuestion /> Questions
+              </span>
+            </NavLink>
+          </li>
+          <li className="mb-2 pl-5">
+            {" "}
+            <NavLink
+              to="/users"
+              className={({ isActive }) =>
+                `w-40 h-11 pl-5 text-xl font-bold ${
+                  isActive
+                    ? "text-white bg-primarycb rounded-l-xl"
+                    : "text-black"
+                }   flex justify-start items-center `
+              }
+            >
+              <span className="flex items-center gap-3">
+                {" "}
+                <Users /> Users
+              </span>
+            </NavLink>{" "}
+          </li>
         </ul>
       </nav>
     </section>

@@ -28,7 +28,7 @@ function Navbar() {
         />
 
         <button
-          className="md:hidden"
+          className="sm:hidden"
           onClick={() => setHomepageMobileNavbarOpen(!homepageMobileNavbarOpen)}
         >
           <ChevronRight />
