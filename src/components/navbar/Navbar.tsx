@@ -1,3 +1,6 @@
+// components
+import HomepageMobileNavbar from "./HomepageMobileNavbar";
+
 import { Link } from "react-router-dom";
 
 import { useState } from "react";
@@ -9,14 +12,28 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 // lucid-react
-import { Menu } from "lucide-react";
+import { ChevronRight, Menu } from "lucide-react";
 
 function Navbar() {
   const [mobileLogInMenuOpen, setMobileLogInMenuOpen] = useState(false);
+  const [homepageMobileNavbarOpen, setHomepageMobileNavbarOpen] =
+    useState(false);
 
   return (
-    <header>
+    <header className="relative">
       <nav className="h-[4rem] flex items-center justify-around border-b border-primarycb px-2">
+        <HomepageMobileNavbar
+          isOpen={homepageMobileNavbarOpen}
+          setIsOpen={setHomepageMobileNavbarOpen}
+        />
+
+        <button
+          className="md:hidden"
+          onClick={() => setHomepageMobileNavbarOpen(!homepageMobileNavbarOpen)}
+        >
+          <ChevronRight />
+        </button>
+
         <Link to="/">
           <div className="logo flex md:gap-5 gap-3 items-center mr-2 overflow-hidden px-1 ">
             <img src={logo} alt="logo" />

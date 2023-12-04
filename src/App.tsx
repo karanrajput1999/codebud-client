@@ -10,11 +10,13 @@ import {
 } from "react-router-dom";
 
 import Root from "./Root";
+import Homepage from "./components/homepage/Homepage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />}>
       <Route path="" element={<LandingPage />} />
+      <Route path="/homepage" element={<Homepage />} />
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
     </Route>
