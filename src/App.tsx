@@ -21,6 +21,7 @@ const router = createBrowserRouter(
   )
 );
 
+// Though we do not need App.jsx file but i just wanted to use it (I don't know why :|).
 function App() {
   return <RouterProvider router={router} />;
 }
