@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function LandingPage() {
   return (
     <main
@@ -15,20 +17,20 @@ function LandingPage() {
       </div>
 
       <div className="hero-links flex sm:gap-10 gap-4 lg:mt-6 md:mt-10 sm:mt-8 mt-6 sm:flex-row flex-col">
-        <a
-          href="#"
+        <Link
+          to="/signup"
           className="xl:px-20 lg:px-6 px-4 py-4 xl:text-3xl lg:text-2xl text-xl bg-primarycb text-white font-bold rounded-lg text-center"
         >
           {" "}
           Join the community
-        </a>
-        <a
-          href="#"
+        </Link>
+        <Link
+          to="/login"
           className="xl:px-10 lg:px-6 px-4 py-4 xl:text-3xl lg:text-2xl text-xl font-bold border border-black rounded-lg text-primarycb text-center "
         >
           {" "}
           Login here
-        </a>
+        </Link>
       </div>
     </main>
   );
