@@ -31,6 +31,13 @@ function LandingPage() {
           {" "}
           Login here
         </Link>
+        <Link
+          to="/homepage"
+          className="xl:px-10 lg:px-6 px-4 py-4 xl:text-3xl lg:text-2xl text-xl font-bold border border-black rounded-lg text-primarycb text-center "
+        >
+          {" "}
+          Temporary home page
+        </Link>
       </div>
     </main>
   );
