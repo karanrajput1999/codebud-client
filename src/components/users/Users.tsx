@@ -4,6 +4,7 @@ import HomepageSidebar from "../homepageSidebar/HomepageSidebar";
 import { Input } from "../ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import UserCard from "./UserCard";
+import UsersHeader from "./UsersHeader";
 
 function Users() {
   return (
@@ -12,18 +13,10 @@ function Users() {
       <section className="users-body flex-[50%]  border border-x-primarycb">
         <div>
           <div className="border-b border-primarycb pb-3">
-            <div className="flex justify-between items-center px-2 py-2 h-20 ">
-              <div>
-                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">
-                  Users
-                </h1>
-              </div>
-              <div>
-                <Input type="text" placeholder="Search user" />
-              </div>
-            </div>
+            {/* users header */}
+            <UsersHeader />
 
-            <div className="filter-tabs mt-1 flex pr-2">
+            <div className="filter-tabs mt-1 sm:px-2 flex pr-2">
               <Tabs
                 defaultValue="newest"
                 className="w-[100%] flex justify-end pr-2"
@@ -67,7 +60,7 @@ function Users() {
           </div>
 
           {/* user card */}
-          <div className="users-card-container mt-2 flex justify-around flex-wrap gap-2">
+          <div className="users-card-container mt-2 sm:px-2 flex justify-around sm:justify-between flex-wrap gap-2">
             <UserCard />
             <UserCard />
           </div>

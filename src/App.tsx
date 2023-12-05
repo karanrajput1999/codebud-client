@@ -14,6 +14,7 @@ import Homepage from "./components/homepage/Homepage";
 import Users from "./components/users/Users";
 import Questions from "./components/questions/Questions";
 import QuestionForm from "./components/questionForm/QuestionForm";
+import UserProfile from "./components/userProfile/UserProfile";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,6 +24,8 @@ const router = createBrowserRouter(
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
       <Route path="users" element={<Users />} />
+      {/* this is going to be a dynamic route (will use user's id as parameter) so that we can fetch user's profile*/}
+      <Route path="users/user" element={<UserProfile />} />
       <Route path="questions" element={<Questions />} />
       <Route path="questions/ask" element={<QuestionForm />} />
     </Route>

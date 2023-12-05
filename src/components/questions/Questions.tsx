@@ -7,6 +7,7 @@ import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { useState } from "react";
 import Question from "./Question";
+import QuestionsHeader from "./QuestionsHeader";
 
 function Questions() {
   const [filterVisible, setFilterVisible] = useState(false);
@@ -17,21 +18,8 @@ function Questions() {
       <section className="home-body flex-[50%]  border border-x-primarycb">
         <div>
           <div className="border-b border-primarycb pb-3">
-            <div className="flex justify-between items-center px-2 py-2 h-20 ">
-              <div>
-                <h1 className="text-2xl md:text-4xl font-bold">
-                  All Questions
-                </h1>
-              </div>
-              <div>
-                <Link
-                  to="/questions/ask"
-                  className="px-5 py-2 md:px-7 md:py-3 bg-primarycb md:text-lg text-white rounded-sm "
-                >
-                  Ask Question
-                </Link>
-              </div>
-            </div>
+            {/* Questions header */}
+            <QuestionsHeader />
 
             <div className="filter-tabs mt-1 flex pr-2">
               <Tabs
