@@ -1,5 +1,3 @@
-import React from "react";
-
 function HomepageSidebar() {
   return (
     <section className="flex-[25%] lg:block hidden">
