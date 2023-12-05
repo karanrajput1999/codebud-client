@@ -6,7 +6,7 @@ function Question() {
       <div className="question-container flex pr-2 py-1 border-b border-primarycb">
         {/* questions left side */}
         <div className="question-stats flex flex-[25%] md:flex-[20%] justify-center items-center  text-sm md:text-base">
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-1">
             <span>5 Votes</span>
             <span>3 Answers</span>
             <span>23 Views</span>
@@ -16,9 +16,7 @@ function Question() {
         <div className=" pl-2 flex-[75%] md:flex-[80%]">
           <div className="question-text">
             <span className="text-base/[1] md:text-xl ">
-              Having issue while making navigation bar responsive. and adding
-              this extra line to check responsiveness.and adding this extra line
-              to check responsiveness
+              Having issue while making navigation bar responsive.
             </span>
           </div>
           <div className="question-tags text-xs flex gap-3 mt-2">

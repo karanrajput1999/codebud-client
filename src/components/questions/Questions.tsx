@@ -16,7 +16,7 @@ function Questions() {
       <HomepageNavbar />
       <section className="home-body flex-[50%]  border border-x-primarycb">
         <div>
-          <div className="border-b border-primarycb pb-6">
+          <div className="border-b border-primarycb pb-3">
             <div className="flex justify-between items-center px-2 py-2 h-20 ">
               <div>
                 <h1 className="text-2xl md:text-4xl font-bold">
