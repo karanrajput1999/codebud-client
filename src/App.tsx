@@ -13,19 +13,18 @@ import Root from "./Root";
 import Homepage from "./components/homepage/Homepage";
 import Users from "./components/users/Users";
 import Questions from "./components/questions/Questions";
-import QuestionsForm from "./components/questionForm/QuestionsForm";
+import QuestionForm from "./components/questionForm/QuestionForm";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />}>
-      <Route path="" element={<LandingPage />} />
+      <Route path="/" element={<LandingPage />} />
       <Route path="homepage" element={<Homepage />} />
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
       <Route path="users" element={<Users />} />
-      <Route path="questions" element={<Questions />}>
-        <Route path="ask" element={<QuestionsForm />} />
-      </Route>
+      <Route path="questions" element={<Questions />} />
+      <Route path="questions/ask" element={<QuestionForm />} />
     </Route>
   )
 );

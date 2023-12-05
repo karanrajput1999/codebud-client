@@ -12,7 +12,7 @@ function HomepageMobileNavbar({ isOpen, setIsOpen }: mobileNavbarTypes) {
   return (
     <section
       className={cn(
-        "home-mobile-navbar h-[100vh] w-52 bg-white border-r border-primarycb flex-[25%] absolute top-0 left-0  md:hidden transition-all duration-300",
+        "home-mobile-navbar h-[100vh] w-52 bg-white border-r border-primarycb flex-[25%] absolute top-0 left-0  md:hidden transition-all duration-300 z-10",
         isOpen ? "translate-x-[0rem]" : "translate-x-[-13rem]"
       )}
     >

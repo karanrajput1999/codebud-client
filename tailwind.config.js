@@ -52,10 +52,11 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        primarycb: "#0284C7",
+        // primarycb: "#0284C7",
       },
       backgroundColor: {
         primarycb: "#0284C7",
+        questionbg: "#F0F9FF",
       },
 
       fontFamily: {
