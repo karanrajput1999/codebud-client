@@ -1,7 +1,6 @@
 import { ArrowUp, Medal, PartyPopper } from "lucide-react";
 import HomepageNavbar from "../homagepageNavbar/HomepageNavbar";
 import HomepageSidebar from "../homepageSidebar/HomepageSidebar";
-import { Input } from "../ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import UserCard from "./UserCard";
 import UsersHeader from "./UsersHeader";

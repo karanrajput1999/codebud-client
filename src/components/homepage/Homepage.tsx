@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import HomepageNavbar from "../homagepageNavbar/HomepageNavbar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CalendarDays, Clock7, Flame } from "lucide-react";
