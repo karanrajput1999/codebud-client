@@ -38,6 +38,7 @@ function LandingPage() {
           {" "}
           Temporary home page
         </Link>
+        <Link to="/users/user">Temporary link for profile</Link>
       </div>
     </main>
   );
