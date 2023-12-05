@@ -1,4 +1,5 @@
 import HomepageNavbar from "../homagepageNavbar/HomepageNavbar";
+import HomepageSidebar from "../homepageSidebar/HomepageSidebar";
 
 function Users() {
   return (
@@ -8,9 +9,7 @@ function Users() {
         <div>Users body</div>
       </section>
 
-      <section className="flex-[25%] lg:block hidden">
-        <div> home sidebar</div>
-      </section>
+      <HomepageSidebar />
     </main>
   );
 }
