@@ -12,20 +12,22 @@ function UserProfile() {
       <HomepageNavbar />
       <section className="user-profile-body flex-[50%] pt-3 px-2 border border-x-primarycb">
         <div className="flex flex-col items-start gap-5 sm:gap-10">
-          <div className="profile-top flex gap-3">
+          <div className="profile-top flex gap-3 items-center">
             <div className="user-profile-avatar w-24 h-24 sm:w-32 sm:h-32 border shrink-0">
               <img src={avatar} alt="user-avatar" />
             </div>
             <div className="user-details">
               <div className="user-name">
-                <h1 className="text-3xl">Jagdish Bhagat</h1>
+                <h1 className="text-3xl md:text-4xl">Jagdish Bhagat</h1>
               </div>
-              <div className="join-time flex text-sm mt-1">
-                <Cake className="w-5 h-4" />
-                <span>Member for 2 years 4 months</span>
-              </div>
-              <div className="user-bio mt-1">
-                <span>Senior software engineer @ Google</span>
+              <div className="mt-2 md:mt-3">
+                <div className="join-time flex text-sm mt-1">
+                  <Cake className="w-5 h-4" />
+                  <span>Member for 2 years 4 months</span>
+                </div>
+                <div className="user-bio mt-1">
+                  <span>Senior software engineer @ Google</span>
+                </div>
               </div>
             </div>
           </div>
