@@ -13,7 +13,7 @@ function UserProfile() {
       <section className="user-profile-body flex-[50%] pt-3 px-2 border border-x-primarycb">
         <div className="flex flex-col items-start gap-5 sm:gap-10">
           <div className="profile-top flex gap-3">
-            <div className="user-profile-avatar w-20 h-20 sm:w-32 sm:h-32 border shrink-0">
+            <div className="user-profile-avatar w-24 h-24 sm:w-32 sm:h-32 border shrink-0">
               <img src={avatar} alt="user-avatar" />
             </div>
             <div className="user-details">
@@ -32,10 +32,7 @@ function UserProfile() {
 
           <div className="profile-body">
             <div className="profile-tab">
-              <Tabs
-                defaultValue="profile"
-                className="w-[100%] flex flex-col pr-2"
-              >
+              <Tabs defaultValue="profile" className="w-[100%]">
                 <TabsList className="bg-white border border-black rounded-sm">
                   <TabsTrigger
                     value="profile"
