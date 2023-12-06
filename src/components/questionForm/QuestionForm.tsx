@@ -3,6 +3,7 @@ import HomepageSidebar from "../homepageSidebar/HomepageSidebar";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import QuestionEditor from "./QuestionEditor";
+import QuestionTagInput from "./QuestionTagInput";
 
 function QuestionForm() {
   return (
@@ -33,17 +34,7 @@ function QuestionForm() {
               </label>
               <QuestionEditor />
             </div>
-            <div className="flex flex-col gap-2">
-              <label htmlFor="question-title" className="font-bold">
-                Tags
-              </label>
-              <Input
-                type="text"
-                id="question-title"
-                name="question-title"
-                placeholder="eg: javascript, react.js, node.js"
-              />
-            </div>
+            <QuestionTagInput />
             <div className="flex justify-end">
               <Button type="submit" className="bg-primarycb">
                 Post your question
