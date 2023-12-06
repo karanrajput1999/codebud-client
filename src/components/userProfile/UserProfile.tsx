@@ -4,7 +4,7 @@ import avatar from "../../assets/avatars/boy-4.png";
 import { Cake } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import UserProfileInfo from "./UserProfileInfo";
-import UserEditProfile from "./UserEditProfile";
+import UserProfileEdit from "./UserProfileEdit";
 
 function UserProfile() {
   return (
@@ -51,7 +51,7 @@ function UserProfile() {
                   <UserProfileInfo />
                 </TabsContent>
                 <TabsContent value="editProfile">
-                  <UserEditProfile />
+                  <UserProfileEdit />
                 </TabsContent>
               </Tabs>
             </div>
