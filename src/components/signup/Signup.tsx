@@ -47,7 +47,7 @@ function Signup() {
 
   return (
     <main
-      className="flex items-center justify-center px-5 pt-5 "
+      className="flex items-center justify-center px-5 pt-5 bg-slate-500"
       style={{ minHeight: "calc(100vh - 4rem)" }}
     >
       <section className="w-80 sm:w-96 border border-black p-5 rounded-xl">
@@ -57,17 +57,12 @@ function Signup() {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
-            {/* <div className="flex flex-col gap-1">
-            <label htmlFor="name">Name</label>
-            <Input type="text" id="name" className="mb-2" />
-          </div> */}
-
             <FormField
               control={form.control}
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel className="text-base">Username</FormLabel>
                   <FormControl>
                     <Input placeholder="John doe" {...field} />
                   </FormControl>
@@ -81,7 +76,7 @@ function Signup() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel className="text-base">Email</FormLabel>
                   <FormControl>
                     <Input placeholder="someone@example.com" {...field} />
                   </FormControl>
@@ -95,9 +90,9 @@ function Signup() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel className="text-base">Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="Your password" {...field} />
+                    <Input placeholder="Enter your password" {...field} />
                   </FormControl>
 
                   <FormMessage />
@@ -109,9 +104,9 @@ function Signup() {
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Confirm Password</FormLabel>
+                  <FormLabel className="text-base">Confirm Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="Confirm your password" {...field} />
+                    <Input placeholder="Confirm password" {...field} />
                   </FormControl>
 
                   <FormMessage />
