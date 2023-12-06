@@ -13,7 +13,7 @@ function Questions() {
   const [filterVisible, setFilterVisible] = useState(false);
 
   return (
-    <main className="flex" style={{ height: "calc(100vh - 4rem)" }}>
+    <main className="flex " style={{ height: "calc(100vh - 4rem)" }}>
       <HomepageNavbar />
       <section className="home-body flex-[50%]  border border-x-primarycb">
         <div>

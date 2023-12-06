@@ -3,7 +3,10 @@ import { NavLink } from "react-router-dom";
 
 function HomepageNavbar() {
   return (
-    <section className="home-navbar w-[100%]  h-[100vh] flex-[25%] sm:block hidden">
+    <section
+      className="home-navbar w-[100%] flex-[25%] sm:block hidden"
+      style={{ height: "calc(100vh - 4rem)" }}
+    >
       <nav className="mt-20">
         <ul className="flex flex-col items-end">
           <li className="mb-2 pl-5">
