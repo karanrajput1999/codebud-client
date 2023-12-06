@@ -1,6 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FileQuestion, Newspaper } from "lucide-react";
-import UserQuestions from "./UserQuestions";
+import UserProfileQuestions from "./UserProfileQuestions";
 import UserAnswers from "./UserAnswers";
 
 function UserProfileInfo() {
@@ -29,12 +29,9 @@ function UserProfileInfo() {
             </div>
           </div>
         </div>
-        <div className="user-profile-right">
+        <div className="user-profile-right mt-4">
           <div className="question-tab">
-            <Tabs
-              defaultValue="questions"
-              className="w-[100%] flex flex-col pr-2"
-            >
+            <Tabs defaultValue="questions" className="w-[100%]">
               <TabsList className=" items-center bg-white border border-black rounded-sm">
                 <TabsTrigger
                   value="questions"
@@ -54,7 +51,7 @@ function UserProfileInfo() {
               </TabsList>
 
               <TabsContent value="questions">
-                <UserQuestions />
+                <UserProfileQuestions />
               </TabsContent>
               <TabsContent value="answers">
                 <UserAnswers />

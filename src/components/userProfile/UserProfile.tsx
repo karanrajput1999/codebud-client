@@ -20,7 +20,7 @@ function UserProfile() {
               <div className="user-name">
                 <h1 className="text-3xl">Jagdish Bhagat</h1>
               </div>
-              <div className="join-time flex items-center text-sm mt-1">
+              <div className="join-time flex text-sm mt-1">
                 <Cake className="w-5 h-4" />
                 <span>Member for 2 years 4 months</span>
               </div>
