@@ -47,8 +47,8 @@ function Signup() {
 
   return (
     <main
-      className="flex items-center justify-center px-5 pt-5 bg-slate-500"
-      style={{ minHeight: "calc(100vh - 4rem)" }}
+      className="flex items-center justify-center px-5 pt-5"
+      style={{ minHeight: "calc(100dvh - 4rem)" }}
     >
       <section className="w-80 sm:w-96 border border-black p-5 rounded-xl">
         <span className="text-3xl font-bold text-center block mb-5">
