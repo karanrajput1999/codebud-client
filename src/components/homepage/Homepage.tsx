@@ -2,9 +2,8 @@ import HomepageNavbar from "../homagepageNavbar/HomepageNavbar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CalendarDays, Clock7, Flame } from "lucide-react";
 import HomepageSidebar from "../homepageSidebar/HomepageSidebar";
-import Question from "../Questions/Question";
 import HomePageHeader from "./HomePageHeader";
-import Questions from "../Questions/Questions";
+import Questions from "../questions/Questions";
 
 function Homepage() {
   return (

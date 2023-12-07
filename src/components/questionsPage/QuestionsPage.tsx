@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CalendarPlus, RotateCcw } from "lucide-react";
 
 import QuestionsHeader from "./QuestionsHeader";
-import Questions from "../Questions/Questions";
+import Questions from "../questions/Questions";
 import QuestionsFilterButton from "./QuestionsFilterButton";
 
 function QuestionsPage() {

@@ -1,4 +1,4 @@
-import Question from "../Questions/Question";
+import Question from "./Question";
 
 function Questions() {
   return (
