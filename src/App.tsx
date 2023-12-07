@@ -12,7 +12,7 @@ import {
 import Root from "./Root";
 import Homepage from "./components/homepage/Homepage";
 import Users from "./components/users/Users";
-import Questions from "./components/questions/Questions";
+import QuestionsPage from "./components/questionsPage/QuestionsPage";
 import QuestionForm from "./components/questionForm/QuestionForm";
 import UserProfile from "./components/userProfile/UserProfile";
 
@@ -26,7 +26,7 @@ const router = createBrowserRouter(
       <Route path="users" element={<Users />} />
       {/* this is going to be a dynamic route (will use user's id as parameter) so that we can fetch user's profile*/}
       <Route path="users/user" element={<UserProfile />} />
-      <Route path="questions" element={<Questions />} />
+      <Route path="questions" element={<QuestionsPage />} />
       <Route path="questions/ask" element={<QuestionForm />} />
     </Route>
   )

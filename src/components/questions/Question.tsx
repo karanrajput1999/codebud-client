@@ -1,8 +1,9 @@
 import { User2 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 function Question() {
   return (
-    <div className="questions-container bg-questionbg">
+    <div className="bg-questionbg w-[100%]">
       <div className="question-container flex pr-2 py-1 border-b border-primarycb">
         {/* questions left side */}
         <div className="question-stats flex flex-[25%] md:flex-[20%] justify-center items-center  text-sm md:text-base">
@@ -15,9 +16,11 @@ function Question() {
         {/* question right side */}
         <div className=" pl-2 flex-[75%] md:flex-[80%]">
           <div className="question-text">
-            <span className="text-base/[1] md:text-xl ">
-              Having issue while making navigation bar responsive.
-            </span>
+            <Link to="/questions">
+              <span className="text-base/[1] md:text-xl underline">
+                Having issue while making navigation bar responsive.
+              </span>
+            </Link>
           </div>
           <div className="question-tags text-xs flex gap-3 mt-2">
             <span className="px-2 py-[2px] rounded-sm   text-white  bg-primarycb ">
