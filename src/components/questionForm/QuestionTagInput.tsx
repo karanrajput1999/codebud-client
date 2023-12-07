@@ -11,7 +11,7 @@ function QuestionTagInput() {
     const trimmedValue = inputTarget.value.trim().toLowerCase();
     console.log(e);
 
-    if (e.key === " ") {
+    if (e.code === "Space" || e.code === "Enter") {
       setTags([...tags, trimmedValue]);
       setTimeout(() => {
         setTagInputValue("");
