@@ -8,20 +8,21 @@ function QuestionTagInput() {
 
   function handleTagInput(e: KeyboardEvent) {
     const inputTarget = e.target as HTMLInputElement;
-    const trimmedValue = inputTarget.value.trim();
+    const trimmedValue = inputTarget.value.trim().toLowerCase();
     if (e.code === "Space") {
       setTags([...tags, trimmedValue]);
-      setTagInputValue("");
+      setTimeout(() => {
+        setTagInputValue("");
+      }, 0);
       console.log(inputTarget.value);
     }
 
-    //   THIS CODE NEED SOME WORK
-    // if (inputTarget.value.length === 0 && e.code === "Backspace") {
-    //   const lastTag = tags[tags.length - 1];
-    //   const otherTags = tags.filter((el) => el !== lastTag);
-    //   setTags([...otherTags]);
-    //   setTagInputValue(lastTag);
-    // }
+    if (inputTarget.value.length === 0 && e.code === "Backspace") {
+      const lastTag = tags[tags.length - 1];
+      const otherTags = tags.filter((el) => el !== lastTag);
+      setTags([...otherTags]);
+      setTagInputValue(lastTag);
+    }
   }
 
   function deleteTag(

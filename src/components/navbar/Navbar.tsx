@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 // lucid-react
-import { ChevronRight, Menu } from "lucide-react";
+import { ChevronRight, Menu, Search } from "lucide-react";
 
 function Navbar() {
   const [mobileLogInMenuOpen, setMobileLogInMenuOpen] = useState(false);
@@ -35,17 +35,21 @@ function Navbar() {
         </button>
 
         <Link to="/">
-          <div className="logo flex md:gap-5 gap-3 items-center mr-2 overflow-hidden px-1 ">
+          <div className="logo flex md:gap-5 gap-3 items-center mr-2 overflow-hidden px-1  ">
             <img src={logo} alt="logo" />
-            <span className="text-[2rem] min-[450px]:block hidden font-bold ">
+            <span className="text-2xl sm:text-[2rem] min-[650px]:block hidden font-bold ">
               Codebud
             </span>
           </div>
         </Link>
-        <div className="searchbar sm:w-2/5 w-3/5 mx-2 sm:block max-[450px]:w-3/4 ">
+        <div className="searchbar sm:w-2/5 w-3/5 mx-2 sm:block max-[450px]:w-3/4 relative ">
           <Input
-            className="border border-primarycb"
+            className="border border-primarycb "
             placeholder="Search your query..."
+          />
+          <Search
+            className="absolute right-3 top-[10px] text-primarycb"
+            size={20}
           />
         </div>
 

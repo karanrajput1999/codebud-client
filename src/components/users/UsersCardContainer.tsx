@@ -2,7 +2,7 @@ import UserCard from "./UserCard";
 
 function UsersCardContainer() {
   return (
-    <div className="users-card-container mt-2 px-2 flex flex-wrap gap-2">
+    <div className="users-card-container mt-2 px-2 flex flex-wrap gap-1">
       <UserCard />
       <UserCard />
       <UserCard />
