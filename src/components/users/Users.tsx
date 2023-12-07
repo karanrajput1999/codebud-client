@@ -2,8 +2,8 @@ import { ArrowUp, Medal, PartyPopper } from "lucide-react";
 import HomepageNavbar from "../homagepageNavbar/HomepageNavbar";
 import HomepageSidebar from "../homepageSidebar/HomepageSidebar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import UserCard from "./UserCard";
 import UsersHeader from "./UsersHeader";
+import UsersCardContainer from "./UsersCardContainer";
 
 function Users() {
   return (
@@ -11,57 +11,56 @@ function Users() {
       <HomepageNavbar />
       <section className="users-body flex-[50%]  border border-x-primarycb">
         <div>
-          <div className="border-b border-primarycb pb-3">
+          <div>
             {/* users header */}
             <UsersHeader />
 
-            <div className="filter-tabs mt-1 sm:px-2 flex pr-2">
+            <div className="filter-tabs mt-1  flex ">
               <Tabs
-                defaultValue="newest"
-                className="w-[100%] flex justify-end pr-2"
+                defaultValue="reputation"
+                className="w-[100%] flex flex-col items-end justify-start"
               >
-                <TabsList className=" items-center bg-white border border-black rounded-sm">
-                  <TabsTrigger
-                    value="newest"
-                    className="border-r border-black rounded-none"
-                  >
-                    <span className="flex items-center gap-2">
-                      <Medal /> Reputation
-                    </span>
-                  </TabsTrigger>
+                <div className="w-[100%] flex justify-end pr-2 pb-4  border-b border-primarycb">
+                  <TabsList className=" items-center bg-white border border-black rounded-sm">
+                    <TabsTrigger
+                      value="reputation"
+                      className="border-r border-black rounded-none"
+                    >
+                      <span className="flex items-center gap-2">
+                        <Medal /> Reputation
+                      </span>
+                    </TabsTrigger>
 
-                  <TabsTrigger
-                    value="oldest"
-                    className="border-r border-black rounded-none"
-                  >
-                    <span className="flex items-center gap-2">
-                      <PartyPopper />
-                      New User
-                    </span>
-                  </TabsTrigger>
+                    <TabsTrigger
+                      value="newest"
+                      className="border-r border-black rounded-none"
+                    >
+                      <span className="flex items-center gap-2">
+                        <PartyPopper />
+                        New User
+                      </span>
+                    </TabsTrigger>
 
-                  <TabsTrigger value="voter">
-                    <span className="flex items-center gap-2">
-                      <ArrowUp />
-                      Voter
-                    </span>
-                  </TabsTrigger>
-                </TabsList>
+                    <TabsTrigger value="voter">
+                      <span className="flex items-center gap-2">
+                        <ArrowUp />
+                        Voter
+                      </span>
+                    </TabsTrigger>
+                  </TabsList>
+                </div>
 
-                <TabsContent value="newest">
-                  {/* These are newest questions. */}
+                <TabsContent value="reputation" className="w-[100%] mt-0">
+                  <UsersCardContainer />
                 </TabsContent>
-                <TabsContent value="oldest">
-                  {/* These are questions for this oldest. */}
+                <TabsContent value="newest" className="w-[100%] mt-0">
+                  <UsersCardContainer />
+                </TabsContent>
+                <TabsContent value="voter" className="w-[100%] mt-0">
+                  <UsersCardContainer />
                 </TabsContent>
               </Tabs>
             </div>
-          </div>
-
-          {/* user card */}
-          <div className="users-card-container mt-2 sm:px-2 flex justify-around sm:justify-between flex-wrap gap-2">
-            <UserCard />
-            <UserCard />
           </div>
         </div>
       </section>
