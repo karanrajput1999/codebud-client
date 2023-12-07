@@ -9,7 +9,9 @@ function QuestionTagInput() {
   function handleTagInput(e: KeyboardEvent) {
     const inputTarget = e.target as HTMLInputElement;
     const trimmedValue = inputTarget.value.trim().toLowerCase();
-    if (e.code === "Space") {
+    console.log(e);
+
+    if (e.key === " ") {
       setTags([...tags, trimmedValue]);
       setTimeout(() => {
         setTagInputValue("");
