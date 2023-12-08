@@ -16,7 +16,7 @@ function Question() {
         {/* question right side */}
         <div className=" pl-2 flex-[75%] md:flex-[80%]">
           <div className="question-text">
-            <Link to="/questions">
+            <Link to="/questions/question">
               <span className="text-base/[1] md:text-xl underline">
                 Having issue while making navigation bar responsive.
               </span>
