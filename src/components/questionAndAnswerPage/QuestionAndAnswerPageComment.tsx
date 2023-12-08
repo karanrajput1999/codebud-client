@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { MouseEventHandler, useState } from "react";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 
@@ -9,7 +9,7 @@ function QuestionAndAnswerPageComment() {
     setToggleCommentForm(!toggleCommentForm);
   }
 
-  function cancelForm(e) {
+  function cancelForm(e: React.MouseEvent) {
     e.preventDefault();
     setToggleCommentForm(false);
   }
