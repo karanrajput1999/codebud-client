@@ -1,8 +1,29 @@
+import { useState } from "react";
 import QuestionAndAnswerPageAnswers from "./QuestionAndAnswerPageAnswers";
 import QuestionAndAnswerPageComments from "./QuestionAndAnswerPageComments";
 import QuestionAndAnswersPageUserCard from "./QuestionAndAnswersPageUserCard";
 
 function QuestionAndAnswerPageQuestion() {
+  const [upvoteIconColor, setUpvoteIconColor] = useState(false);
+  const [downvoteIconColor, setDownvoteIconColor] = useState(false);
+
+  function toggleUpvotingColor() {
+    setUpvoteIconColor(!upvoteIconColor);
+
+    // if question had been already downvoted then remove that downvote (so that vote and downvote can not be triggered at the same time)
+    if (downvoteIconColor) {
+      setDownvoteIconColor(false);
+    }
+  }
+  function toggleDownvotingColor() {
+    setDownvoteIconColor(!downvoteIconColor);
+
+    // if question had been already upvoted then remove that upvote (so that vote and downvote can not be triggered at the same time)
+    if (upvoteIconColor) {
+      setUpvoteIconColor(false);
+    }
+  }
+
   return (
     <div>
       <div>
@@ -17,23 +38,37 @@ function QuestionAndAnswerPageQuestion() {
         </div>
         <div className="question-section flex gap-2 md:gap-5 pt-2">
           <div className="vote-section flex flex-col gap-2 items-center pl-1 md:pl-3">
-            <button className="p-3 md:p-4 border border-primarycb rounded-[50%]">
+            <button
+              className={`p-3 md:p-4 border border-primarycb rounded-[50%] ${
+                upvoteIconColor && "bg-primarycb"
+              }`}
+              onClick={toggleUpvotingColor}
+            >
               <svg
                 aria-hidden="true"
                 width="18"
                 height="18"
                 viewBox="0 0 18 18"
+                className={`${upvoteIconColor && "fill-current text-white"}`}
               >
                 <path d="M1 12h16L9 4l-8 8Z"></path>
               </svg>
             </button>
+
             <span className="text-xl md:text-2xl">15</span>
-            <button className="p-3 md:p-4 border border-primarycb rounded-[50%]">
+
+            <button
+              className={`p-3 md:p-4 border border-primarycb rounded-[50%] ${
+                downvoteIconColor && "bg-primarycb"
+              }`}
+              onClick={toggleDownvotingColor}
+            >
               <svg
                 aria-hidden="true"
                 width="18"
                 height="18"
                 viewBox="0 0 18 18"
+                className={`${downvoteIconColor && "fill-current text-white"}`}
               >
                 <path d="M1 6h16l-8 8-8-8Z"></path>
               </svg>
