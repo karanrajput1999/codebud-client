@@ -13,7 +13,7 @@ function HomepageSidebarWatchedTags() {
 
   return (
     <div className="w-min border border-primarycb  rounded-md overflow-hidden">
-      <div className="watched-tags-header py-2 px-2 flex justify-between bg-slate-200">
+      <div className="watched-tags-header py-2 px-2 flex justify-between bg-slate-100">
         <span className="text-xl font-bold ">Watched Tags</span>
         <button onClick={handleEditMode}>edit</button>
       </div>

@@ -16,6 +16,7 @@ import QuestionsPage from "./components/questionsPage/QuestionsPage";
 import QuestionForm from "./components/questionForm/QuestionForm";
 import UserProfile from "./components/userProfile/UserProfile";
 import QuestionAndAnswerPage from "./components/questionAndAnswerPage/QuestionAndAnswerPage";
+import Tags from "./components/TagsPage/Tags";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -25,6 +26,7 @@ const router = createBrowserRouter(
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
       <Route path="users" element={<Users />} />
+      <Route path="tags" element={<Tags />} />
 
       {/* this is going to be a dynamic route (will use user's id as parameter) so that we can fetch user's profile*/}
       <Route path="users/user" element={<UserProfile />} />

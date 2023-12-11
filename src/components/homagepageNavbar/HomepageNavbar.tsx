@@ -1,4 +1,4 @@
-import { Home, ShieldQuestion, Users } from "lucide-react";
+import { Home, ShieldQuestion, Tags, Users } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 function HomepageNavbar() {
@@ -57,6 +57,24 @@ function HomepageNavbar() {
               <span className="flex items-center gap-3">
                 {" "}
                 <Users /> Users
+              </span>
+            </NavLink>{" "}
+          </li>
+          <li className="mb-2 pl-5">
+            {" "}
+            <NavLink
+              to="/tags"
+              className={({ isActive }) =>
+                `w-64 h-14 pl-5 text-2xl font-bold ${
+                  isActive
+                    ? "text-white bg-primarycb rounded-l-xl"
+                    : "text-black"
+                }   flex justify-start items-center `
+              }
+            >
+              <span className="flex items-center gap-3">
+                {" "}
+                <Tags /> Tags
               </span>
             </NavLink>{" "}
           </li>
