@@ -4,16 +4,17 @@ import HomepageMobileNavbar from "./HomepageMobileNavbar";
 import { Link } from "react-router-dom";
 
 import { useState } from "react";
-import { cn } from "@/lib/utils";
 
 // shadcn
 import logo from "../../assets/logo.svg";
 import { Input } from "@/components/ui/input";
 
 // lucid-react
-import { ChevronRight, Menu, Search } from "lucide-react";
+import { ChevronRight, Search } from "lucide-react";
 import LoginSignupContainer from "./LoginSignupContainer";
 import HomepageUserNavbar from "./HomepageUserNavbar";
+import LoginSignupContainerMobile from "./LoginSignupContainerMobile";
+import HomepageUserMobileNavbar from "./HomepageUserMobileNavbar";
 
 function Navbar() {
   const [mobileLogInMenuOpen, setMobileLogInMenuOpen] = useState(false);
@@ -59,28 +60,17 @@ function Navbar() {
         {/* login signup buttons */}
         {isLoggedIn ? <HomepageUserNavbar /> : <LoginSignupContainer />}
 
-        <div className="mobile-login-menu-container relative sm:hidden flex items-center">
-          <button onClick={() => setMobileLogInMenuOpen(!mobileLogInMenuOpen)}>
-            <Menu />
-          </button>
-
-          <div
-            className={cn(
-              "mobile-login-menu w-28 border bg-white border-primarycb flex-col absolute right-0 top-6",
-              mobileLogInMenuOpen ? "flex" : "hidden"
-            )}
-          >
-            <Link
-              to="/login"
-              className="text-center font-semibold py-1 border border-b-primarycb"
-            >
-              Login
-            </Link>
-            <Link to="/signup" className="text-center font-semibold py-1">
-              Signup
-            </Link>
-          </div>
-        </div>
+        {isLoggedIn ? (
+          <HomepageUserMobileNavbar
+            mobileLogInMenuOpen={mobileLogInMenuOpen}
+            setMobileLogInMenuOpen={setMobileLogInMenuOpen}
+          />
+        ) : (
+          <LoginSignupContainerMobile
+            mobileLogInMenuOpen={mobileLogInMenuOpen}
+            setMobileLogInMenuOpen={setMobileLogInMenuOpen}
+          />
+        )}
       </nav>
     </header>
   );

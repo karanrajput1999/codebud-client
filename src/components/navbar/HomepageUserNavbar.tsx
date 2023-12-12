@@ -3,13 +3,14 @@ import { Link } from "react-router-dom";
 
 function HomepageUserNavbar() {
   return (
-    <div className="flex gap-4 items-center">
+    <div className="gap-4 items-center sm:flex hidden">
       <Link to="/users/user" className="flex gap-1">
         <CircleUserRound />
         <span>132</span>
       </Link>
-      <button>
+      <button className="flex items-center gap-1">
         <Bell />
+        <span>Notifications</span>
       </button>
     </div>
   );
