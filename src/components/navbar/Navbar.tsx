@@ -9,15 +9,18 @@ import { cn } from "@/lib/utils";
 // shadcn
 import logo from "../../assets/logo.svg";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 
 // lucid-react
 import { ChevronRight, Menu, Search } from "lucide-react";
+import LoginSignupContainer from "./LoginSignupContainer";
+import HomepageUserNavbar from "./HomepageUserNavbar";
 
 function Navbar() {
   const [mobileLogInMenuOpen, setMobileLogInMenuOpen] = useState(false);
   const [homepageMobileNavbarOpen, setHomepageMobileNavbarOpen] =
     useState(false);
+
+  const isLoggedIn = true;
 
   return (
     <header className="relative">
@@ -53,18 +56,8 @@ function Navbar() {
           />
         </div>
 
-        <div className="login-container sm:flex md:gap-5 sm:gap-2 gap-1 hidden">
-          <Link to="/login">
-            <Button className="md:text-lg text-base md:w-24 sm:w-20 w-15 bg-primarycb border hover:bg-white hover:text-primarycb hover:border-primarycb">
-              Login
-            </Button>
-          </Link>
-          <Link to="/signup">
-            <Button className="md:text-lg text-base md:w-24 w-20 bg-primarycb border hover:bg-white hover:text-primarycb hover:border-primarycb">
-              Signup
-            </Button>
-          </Link>
-        </div>
+        {/* login signup buttons */}
+        {isLoggedIn ? <HomepageUserNavbar /> : <LoginSignupContainer />}
 
         <div className="mobile-login-menu-container relative sm:hidden flex items-center">
           <button onClick={() => setMobileLogInMenuOpen(!mobileLogInMenuOpen)}>
