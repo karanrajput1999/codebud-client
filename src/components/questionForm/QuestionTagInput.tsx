@@ -39,7 +39,13 @@ function QuestionTagInput() {
   }
 
   function handleBackspace(e: React.KeyboardEvent) {
-    console.log("solving backspace error", e);
+    const inputTarget = e.target as HTMLInputElement;
+    if (inputTarget.value.length === 0 && e.code === "Backspace") {
+      const lastTag = tags[tags.length - 1];
+      const otherTags = tags.filter((el) => el !== lastTag);
+      setTags([...otherTags]);
+      setTagInputValue(lastTag);
+    }
   }
 
   function deleteTag(
