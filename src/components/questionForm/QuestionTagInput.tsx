@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, useState } from "react";
+import React, { useState } from "react";
 import { Input } from "../ui/input";
 import { X } from "lucide-react";
 
@@ -6,23 +6,34 @@ function QuestionTagInput() {
   const [tagInputValue, setTagInputValue] = useState<string>("");
   const [tags, setTags] = useState<string[]>([]);
 
-  function handleTagInput(e: KeyboardEvent) {
+  function handleTagInput(e: React.FormEvent<HTMLInputElement>) {
     const inputTarget = e.target as HTMLInputElement;
     const trimmedValue = inputTarget.value.trim().toLowerCase();
     console.log("button in mobile was pressed", e);
-
-    if (e.code === "Space") {
-      setTags([...tags, trimmedValue]);
-      setTimeout(() => {
-        setTagInputValue("");
-      }, 0);
-    }
-
-    if (inputTarget.value.length === 0 && e.code === "Backspace") {
-      const lastTag = tags[tags.length - 1];
-      const otherTags = tags.filter((el) => el !== lastTag);
-      setTags([...otherTags]);
-      setTagInputValue(lastTag);
+    // if (e.code === "Space") {
+    //   setTags([...tags, trimmedValue]);
+    //   setTimeout(() => {
+    //     setTagInputValue("");
+    //   }, 0);
+    // }
+    // if (inputTarget.value.length === 0 && e.code === "Backspace") {
+    //   const lastTag = tags[tags.length - 1];
+    //   const otherTags = tags.filter((el) => el !== lastTag);
+    //   setTags([...otherTags]);
+    //   setTagInputValue(lastTag);
+    // }
+    // Check if nativeEvent is available and has the data property
+    if (
+      e.nativeEvent instanceof InputEvent &&
+      e.nativeEvent.data !== undefined
+    ) {
+      if (e.nativeEvent.data === " ") {
+        setTags([...tags, trimmedValue]);
+        setTimeout(() => {
+          setTagInputValue("");
+        }, 0);
+      }
+      console.log(e);
     }
   }
 
