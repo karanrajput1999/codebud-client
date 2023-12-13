@@ -74,7 +74,7 @@ function QuestionTagInput() {
           id="question-title"
           name="question-title"
           placeholder="eg: javascript, react.js, node.js"
-          className="focus-visible:ring-0 focus:outline-none border-none rounded-none"
+          className="focus-visible:ring-0 focus-visible:ring-offset-0 border-none rounded-none"
           onKeyDown={(e) => handleBackspace(e)}
           onInput={(e) => handleTagInput(e)}
           onChange={(e) => setTagInputValue(e.target.value)}
