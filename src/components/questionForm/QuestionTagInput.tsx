@@ -11,6 +11,11 @@ function QuestionTagInput() {
     const trimmedValue = inputTarget.value.trim().toLowerCase();
     console.log("button in mobile was pressed", e);
 
+    // Check if the input is empty, and if so, return early
+    if (!trimmedValue) {
+      return;
+    }
+
     // Check if nativeEvent is available and has the data property
     if (
       e.nativeEvent instanceof InputEvent &&
@@ -29,11 +34,14 @@ function QuestionTagInput() {
 
   function handleBackspace(e: React.KeyboardEvent) {
     const inputTarget = e.target as HTMLInputElement;
+
     if (inputTarget.value.length === 0 && e.key === "Backspace") {
       const lastTag = tags[tags.length - 1];
       const otherTags = tags.filter((el) => el !== lastTag);
       setTags([...otherTags]);
-      setTagInputValue(lastTag);
+      if (lastTag !== undefined)
+        // adding this extra space (" ") helps to not delete the last letter when pressed backspace for the first time
+        setTagInputValue(lastTag + " ");
     }
     console.log("BACKSPACE ERROR", e);
   }
