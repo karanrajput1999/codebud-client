@@ -62,7 +62,8 @@ function QuestionTagInput() {
           name="question-title"
           placeholder="eg: javascript, react.js, node.js"
           className="focus-visible:ring-0 border-none rounded-none"
-          onKeyDown={(e) => handleTagInput(e)}
+          // onKeyDown={(e) => handleTagInput(e)}
+          onInput={(e) => handleTagInput(e)}
           onChange={(e) => setTagInputValue(e.target.value)}
         />
       </div>
