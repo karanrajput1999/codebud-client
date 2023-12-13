@@ -10,18 +10,7 @@ function QuestionTagInput() {
     const inputTarget = e.target as HTMLInputElement;
     const trimmedValue = inputTarget.value.trim().toLowerCase();
     console.log("button in mobile was pressed", e);
-    // if (e.code === "Space") {
-    //   setTags([...tags, trimmedValue]);
-    //   setTimeout(() => {
-    //     setTagInputValue("");
-    //   }, 0);
-    // }
-    // if (inputTarget.value.length === 0 && e.code === "Backspace") {
-    //   const lastTag = tags[tags.length - 1];
-    //   const otherTags = tags.filter((el) => el !== lastTag);
-    //   setTags([...otherTags]);
-    //   setTagInputValue(lastTag);
-    // }
+
     // Check if nativeEvent is available and has the data property
     if (
       e.nativeEvent instanceof InputEvent &&
@@ -44,7 +33,8 @@ function QuestionTagInput() {
       const lastTag = tags[tags.length - 1];
       const otherTags = tags.filter((el) => el !== lastTag);
       setTags([...otherTags]);
-      setTagInputValue(lastTag);
+      // adding this extra space (" ") helps to not delete the last letter when pressed backspace for the first time
+      setTagInputValue(lastTag + " ");
     }
     console.log("BACKSPACE ERROR", e);
   }
@@ -84,7 +74,7 @@ function QuestionTagInput() {
           id="question-title"
           name="question-title"
           placeholder="eg: javascript, react.js, node.js"
-          className="focus-visible:ring-0 border-none rounded-none"
+          className="focus-visible:ring-0 focus:outline-none border-none rounded-none"
           onKeyDown={(e) => handleBackspace(e)}
           onInput={(e) => handleTagInput(e)}
           onChange={(e) => setTagInputValue(e.target.value)}
