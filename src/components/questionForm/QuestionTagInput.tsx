@@ -40,7 +40,7 @@ function QuestionTagInput() {
 
   function handleBackspace(e: React.KeyboardEvent) {
     const inputTarget = e.target as HTMLInputElement;
-    if (inputTarget.value.length === 0 && e.code === "Backspace") {
+    if (inputTarget.value.length === 0 && e.key === "Backspace") {
       const lastTag = tags[tags.length - 1];
       const otherTags = tags.filter((el) => el !== lastTag);
       setTags([...otherTags]);
