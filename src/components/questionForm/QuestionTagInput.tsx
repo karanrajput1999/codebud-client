@@ -33,8 +33,7 @@ function QuestionTagInput() {
       const lastTag = tags[tags.length - 1];
       const otherTags = tags.filter((el) => el !== lastTag);
       setTags([...otherTags]);
-      // adding this extra space (" ") helps to not delete the last letter when pressed backspace for the first time
-      setTagInputValue(lastTag + " ");
+      setTagInputValue(lastTag);
     }
     console.log("BACKSPACE ERROR", e);
   }
