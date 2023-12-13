@@ -33,8 +33,13 @@ function QuestionTagInput() {
           setTagInputValue("");
         }, 0);
       }
+
       console.log(e);
     }
+  }
+
+  function handleBackspace(e: React.KeyboardEvent) {
+    console.log("solving backspace error", e);
   }
 
   function deleteTag(
@@ -73,7 +78,7 @@ function QuestionTagInput() {
           name="question-title"
           placeholder="eg: javascript, react.js, node.js"
           className="focus-visible:ring-0 border-none rounded-none"
-          // onKeyDown={(e) => handleTagInput(e)}
+          onKeyDown={(e) => handleBackspace(e)}
           onInput={(e) => handleTagInput(e)}
           onChange={(e) => setTagInputValue(e.target.value)}
         />
