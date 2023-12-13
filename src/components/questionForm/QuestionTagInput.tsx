@@ -9,14 +9,13 @@ function QuestionTagInput() {
   function handleTagInput(e: KeyboardEvent) {
     const inputTarget = e.target as HTMLInputElement;
     const trimmedValue = inputTarget.value.trim().toLowerCase();
-    console.log(e);
+    console.log("button in mobile was pressed", e);
 
-    if (e.code === "Space" || e.code === "Enter") {
+    if (e.code === "Space") {
       setTags([...tags, trimmedValue]);
       setTimeout(() => {
         setTagInputValue("");
       }, 0);
-      console.log(inputTarget.value);
     }
 
     if (inputTarget.value.length === 0 && e.code === "Backspace") {
