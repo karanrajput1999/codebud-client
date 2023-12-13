@@ -46,6 +46,7 @@ function QuestionTagInput() {
       setTags([...otherTags]);
       setTagInputValue(lastTag);
     }
+    console.log("BACKSPACE ERROR", e);
   }
 
   function deleteTag(
