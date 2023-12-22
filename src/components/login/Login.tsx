@@ -14,6 +14,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import axios from "axios";
+import SERVER_URL from "@/serverUrl";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -23,6 +26,19 @@ const formSchema = z.object({
 });
 
 function Signup() {
+  useEffect(() => {
+    axios
+      .get(`${SERVER_URL}/login`, { withCredentials: true })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log("login get error", error);
+      });
+
+    console.log("use effect was called");
+  }, []);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -32,9 +48,14 @@ function Signup() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    axios
+      .post(`${SERVER_URL}/login`, values, { withCredentials: true })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log("Got error while logging in", error);
+      });
   }
 
   return (

@@ -1,10 +1,11 @@
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import axios from "axios";
+import SERVER_URL from "@/serverUrl";
 
 import {
   Form,
@@ -40,9 +41,14 @@ function Signup() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    axios
+      .post(`${SERVER_URL}/signup`, { ...values })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log("Got error while signing up", error);
+      });
   }
 
   return (
