@@ -17,8 +17,8 @@ import QuestionForm from "./components/questionForm/QuestionForm";
 import UserProfile from "./components/userProfile/UserProfile";
 import QuestionAndAnswerPage from "./components/questionAndAnswerPage/QuestionAndAnswerPage";
 import Tags from "./components/TagsPage/Tags";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { fetchUser } from "./features/fetchUser/fetchUserSlice";
 import ProtectedRoute from "./utils/ProtectedRoute";
 
@@ -27,7 +27,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchUser());
+    dispatch(fetchUser() as any);
   }, []);
 
   const router = createBrowserRouter(
