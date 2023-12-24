@@ -1,6 +1,19 @@
-import { Link } from "react-router-dom";
+import { RootState } from "@/app/store";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
 function LandingPage() {
+  const { data } = useSelector((state: RootState) => state.user);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (data) {
+      navigate("/homepage");
+    }
+  }, [data]);
+
   return (
     <main
       className="xl:px-48 lg:px-32 md:px-28 sm:px-14 px-4 flex items-center flex-col 2xl:mt-32 lg:mt-10 md:mt-14 sm:mt-24 min-[400px]:mt-14 mt-6"
@@ -31,13 +44,13 @@ function LandingPage() {
           {" "}
           Login here
         </Link>
-        <Link
+        {/* <Link
           to="/homepage"
           className="xl:px-10 lg:px-6 px-4 py-4 xl:text-3xl lg:text-2xl text-xl font-bold border border-black rounded-lg text-primarycb text-center "
         >
           {" "}
           Temporary home page
-        </Link>
+        </Link> */}
       </div>
     </main>
   );

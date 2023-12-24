@@ -1,6 +1,6 @@
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -15,6 +15,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { RootState } from "@/app/store";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -30,6 +33,15 @@ const formSchema = z.object({
 });
 
 function Signup() {
+  const navigate = useNavigate();
+  const { data } = useSelector((state: RootState) => state.user);
+
+  useEffect(() => {
+    if (data) {
+      navigate("/homepage");
+    }
+  }, [data]);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

@@ -1,7 +1,7 @@
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -17,6 +17,9 @@ import {
 import axios from "axios";
 import SERVER_URL from "@/serverUrl";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUser } from "@/features/fetchUser/fetchUserSlice";
+import { RootState } from "@/app/store";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -25,19 +28,16 @@ const formSchema = z.object({
   }),
 });
 
-function Signup() {
-  useEffect(() => {
-    axios
-      .get(`${SERVER_URL}/login`, { withCredentials: true })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((error) => {
-        console.log("login get error", error);
-      });
+function Login() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { data } = useSelector((state: RootState) => state.user);
 
-    console.log("use effect was called");
-  }, []);
+  useEffect(() => {
+    if (data) {
+      navigate("/homepage");
+    }
+  }, [data]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -52,6 +52,9 @@ function Signup() {
       .post(`${SERVER_URL}/login`, values, { withCredentials: true })
       .then((res) => {
         console.log(res);
+
+        dispatch(fetchUser() as any);
+        navigate("/homepage");
       })
       .catch((error) => {
         console.log("Got error while logging in", error);
@@ -118,4 +121,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default Login;
