@@ -4,8 +4,21 @@ import { CalendarDays, Clock7, Flame } from "lucide-react";
 import HomepageSidebar from "../homepageSidebar/HomepageSidebar";
 import HomePageHeader from "./HomePageHeader";
 import Questions from "../questions/Questions";
+import { useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/app/store";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchQuestions } from "@/features/fetchQuestions/fetchQuestionsSlice";
 
 function Homepage() {
+  const { data } = useSelector((state: RootState) => state.fetchQuestions);
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(fetchQuestions());
+    // console.log("these are the questions i hope so ", data);
+  }, []);
+
   return (
     <main className="flex " style={{ height: "calc(100vh - 4rem)" }}>
       <HomepageNavbar />
@@ -49,21 +62,15 @@ function Homepage() {
                 </div>
                 <TabsContent value="hot" className="w-[100%] mt-0">
                   {/* These are hot questions. */}
-                  <Questions />
-                  <Questions />
+                  <Questions questions={data} />
                 </TabsContent>
                 <TabsContent value="week" className="w-[100%] mt-0">
                   {/* These are questions for this week. */}
-                  <Questions />
-                  <Questions />
-                  <Questions />
+                  <Questions questions={data} />
                 </TabsContent>
                 <TabsContent value="month" className="w-[100%] mt-0">
                   {/* These are questions for this month. */}
-                  <Questions />
-                  <Questions />
-                  <Questions />
-                  <Questions />
+                  <Questions questions={data} />
                 </TabsContent>
               </Tabs>
             </div>

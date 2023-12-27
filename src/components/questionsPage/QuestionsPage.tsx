@@ -4,7 +4,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CalendarPlus, RotateCcw } from "lucide-react";
 
 import QuestionsHeader from "./QuestionsHeader";
-import Questions from "../questions/Questions";
 import QuestionsFilterButton from "./QuestionsFilterButton";
 
 function QuestionsPage() {
@@ -45,12 +44,14 @@ function QuestionsPage() {
 
                 <TabsContent value="newest" className="w-[100%] mt-0">
                   {/* These are newest questions. */}
-                  <Questions />
-                  <Questions />
+                  <span>will be updated later </span>
+                  {/* <Questions /> */}
+                  {/* <Questions /> */}
                 </TabsContent>
                 <TabsContent value="oldest" className="w-[100%] mt-0">
                   {/* These are questions for this oldest. */}
-                  <Questions />
+                  {/* <Questions /> */}
+                  <span>will be updated later </span>
                 </TabsContent>
               </Tabs>
             </div>

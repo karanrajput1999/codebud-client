@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { Input } from "../ui/input";
 import { X } from "lucide-react";
 
-function QuestionTagInput() {
+interface tagsType {
+  tags: string[];
+  setTags: Dispatch<SetStateAction<string[]>>;
+}
+
+function QuestionTagInput({ tags, setTags }: tagsType) {
   const [tagInputValue, setTagInputValue] = useState<string>("");
-  const [tags, setTags] = useState<string[]>([]);
 
   function handleTagInput(e: React.FormEvent<HTMLInputElement>) {
     const inputTarget = e.target as HTMLInputElement;
     const trimmedValue = inputTarget.value.trim().toLowerCase();
-    console.log("button in mobile was pressed", e);
 
     // Check if the input is empty, and if so, return early
     if (!trimmedValue) {
@@ -27,8 +30,6 @@ function QuestionTagInput() {
           setTagInputValue("");
         }, 0);
       }
-
-      console.log(e);
     }
   }
 

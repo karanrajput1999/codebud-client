@@ -60,7 +60,7 @@ function App() {
 
         {/* this is going to be a dynamic route */}
         <Route
-          path="questions/question"
+          path="questions/:id"
           element={<ProtectedRoute Component={QuestionAndAnswerPage} />}
         />
       </Route>

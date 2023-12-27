@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "../features/fetchUser/fetchUserSlice";
+import fetchQuestionsReducer from "../features/fetchQuestions/fetchQuestionsSlice";
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
+    fetchQuestions: fetchQuestionsReducer,
   },
 });
 

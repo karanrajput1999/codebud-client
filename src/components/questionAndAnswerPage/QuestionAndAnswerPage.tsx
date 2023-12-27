@@ -1,6 +1,5 @@
 import HomepageNavbar from "../homagepageNavbar/HomepageNavbar";
 import HomepageSidebar from "../homepageSidebar/HomepageSidebar";
-
 import QuestionAndAnswerPageQuestion from "./QuestionAndAnswerPageQuestion";
 
 function QuestionAndAnswerPage() {

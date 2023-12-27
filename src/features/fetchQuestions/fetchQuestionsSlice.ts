@@ -1,16 +1,19 @@
 import SERVER_URL from "@/serverUrl";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { userType } from "@/types/types";
+import { questionType } from "@/types/types";
 
-export const fetchUser = createAsyncThunk(
-  "user/fetchUser",
+export const fetchQuestions = createAsyncThunk(
+  "user/fetchQuestions",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${SERVER_URL}/login`, {
+      const response = await axios.get(`${SERVER_URL}/homepage`, {
         withCredentials: true,
       });
-      // console.log("response received from fetchUser api call", response.data);
+      // console.log(
+      //   "response received from fetchQuestions api call",
+      //   response.data
+      // );
 
       return response.data;
     } catch (error) {
@@ -20,7 +23,7 @@ export const fetchUser = createAsyncThunk(
 );
 
 interface stateType {
-  data: userType | null;
+  data: questionType[] | null;
   loading: boolean;
   error: string | undefined | null;
 }
@@ -31,24 +34,24 @@ const initialState: stateType = {
   error: null,
 };
 
-const userSlice = createSlice({
-  name: "user",
+const fetchQuestionsSlice = createSlice({
+  name: "fetchQuestions",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchUser.pending, (state) => {
+      .addCase(fetchQuestions.pending, (state) => {
         state.loading = true;
       })
-      .addCase(fetchUser.fulfilled, (state, action) => {
+      .addCase(fetchQuestions.fulfilled, (state, action) => {
         state.loading = false;
         state.data = action.payload;
       })
-      .addCase(fetchUser.rejected, (state, action) => {
+      .addCase(fetchQuestions.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });
   },
 });
 
-export default userSlice.reducer;
+export default fetchQuestionsSlice.reducer;

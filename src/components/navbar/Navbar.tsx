@@ -15,13 +15,15 @@ import LoginSignupContainer from "./LoginSignupContainer";
 import HomepageUserNavbar from "./HomepageUserNavbar";
 import LoginSignupContainerMobile from "./LoginSignupContainerMobile";
 import HomepageUserMobileNavbar from "./HomepageUserMobileNavbar";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/store";
 
 function Navbar() {
   const [mobileLogInMenuOpen, setMobileLogInMenuOpen] = useState(false);
   const [homepageMobileNavbarOpen, setHomepageMobileNavbarOpen] =
     useState(false);
 
-  const isLoggedIn = true;
+  const { data } = useSelector((state: RootState) => state.user);
 
   return (
     <header className="relative">
@@ -58,9 +60,9 @@ function Navbar() {
         </div>
 
         {/* login signup buttons */}
-        {isLoggedIn ? <HomepageUserNavbar /> : <LoginSignupContainer />}
+        {data ? <HomepageUserNavbar /> : <LoginSignupContainer />}
 
-        {isLoggedIn ? (
+        {data ? (
           <HomepageUserMobileNavbar
             mobileLogInMenuOpen={mobileLogInMenuOpen}
             setMobileLogInMenuOpen={setMobileLogInMenuOpen}
