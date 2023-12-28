@@ -11,8 +11,8 @@ import { RootState } from "@/app/store";
 import { questionType } from "@/types/types";
 
 function QuestionAndAnswerPageQuestion() {
-  const [upvoteIconColor, setUpvoteIconColor] = useState(false);
-  const [downvoteIconColor, setDownvoteIconColor] = useState(false);
+  const [upvoteColor, setUpvoteColor] = useState(false);
+  const [downvoteColor, setDownvoteColor] = useState(false);
   const [question, setQuestion] = useState<questionType | null>(null);
 
   const user = useSelector((state: RootState) => state.user.data);
@@ -23,8 +23,15 @@ function QuestionAndAnswerPageQuestion() {
     axios
       .get(`${SERVER_URL}/questions/${id}`)
       .then((res) => {
-        // console.log("fetched particular question", res);
         setQuestion(res.data);
+
+        if (res.data?.upvote?.includes(user?.id)) {
+          setUpvoteColor(true);
+        }
+        if (res.data?.downvote?.includes(user?.id)) {
+          setDownvoteColor(true);
+        }
+        console.log("qna page was rendered");
       })
       .catch((error) => {
         console.log(
@@ -34,49 +41,115 @@ function QuestionAndAnswerPageQuestion() {
       });
   }, []);
 
-  console.log();
-
   function toggleUpvote() {
-    setUpvoteIconColor(!upvoteIconColor);
-
     axios
       .patch(
         `${SERVER_URL}/questions/${id}/upvote`,
         {},
         { withCredentials: true }
       )
-      .then((res) => {
-        console.log(res);
+      .then(() => {
+        const alreadyUpvoted = question?.upvote?.includes(user?.id ?? "");
+        const alreadyDownvoted = question?.downvote?.includes(user?.id ?? "");
+
+        const updateIncreasedUpvoteCount = question?.upvote && [
+          ...question?.upvote,
+          user?.id,
+        ];
+        const updateDecreasedUpvoteCount = question?.upvote?.filter(
+          (userId) => userId !== user?.id
+        );
+        const updateDecreasedDownvoteCount = question?.downvote?.filter(
+          (userId) => userId !== user?.id
+        );
+
+        if (alreadyUpvoted) {
+          setQuestion({
+            ...question!,
+            upvote: updateDecreasedUpvoteCount || [],
+          });
+
+          setUpvoteColor(false);
+          return;
+        }
+
+        if (alreadyDownvoted) {
+          setQuestion({
+            ...question!,
+            downvote: updateDecreasedDownvoteCount || [],
+            upvote: updateIncreasedUpvoteCount || [],
+          });
+          setUpvoteColor(true);
+          setDownvoteColor(false);
+          return;
+        }
+
+        setQuestion({
+          ...question!,
+          upvote: updateIncreasedUpvoteCount || [],
+        });
+        setUpvoteColor(true);
       })
       .catch((error) => {
         console.log("error while trying to upvote", error);
       });
-
-    // if question had been already downvoted then remove that downvote (so that vote and downvote can not be triggered at the same time)
-    if (downvoteIconColor) {
-      setDownvoteIconColor(false);
-    }
   }
-  function toggleDownvote() {
-    setDownvoteIconColor(!downvoteIconColor);
 
+  function toggleDownvote() {
     axios
       .patch(
         `${SERVER_URL}/questions/${id}/downvote`,
         {},
         { withCredentials: true }
       )
-      .then((res) => {
-        console.log(res);
+      .then(() => {
+        const alreadyDownvoted = question?.downvote?.includes(user?.id ?? "");
+        const alreadyUpvoted = question?.upvote?.includes(user?.id ?? "");
+
+        const updateDecreasedUpvoteCount = question?.upvote?.filter(
+          (userId) => userId !== user?.id
+        );
+
+        const updateIncreasedDownvoteCount = question?.downvote && [
+          ...question?.downvote,
+          user?.id,
+        ];
+
+        const updateDecreasedDownvoteCount = question?.downvote?.filter(
+          (userId) => userId !== user?.id
+        );
+
+        if (alreadyUpvoted) {
+          setQuestion({
+            ...question!,
+            upvote: updateDecreasedUpvoteCount || [],
+            downvote: updateIncreasedDownvoteCount || [],
+          });
+
+          setUpvoteColor(false);
+          setDownvoteColor(true);
+
+          return;
+        }
+
+        if (alreadyDownvoted) {
+          setQuestion({
+            ...question!,
+            downvote: updateDecreasedDownvoteCount || [],
+          });
+          setDownvoteColor(false);
+          return;
+        }
+
+        setQuestion({
+          ...question!,
+          downvote: updateIncreasedDownvoteCount || [],
+        });
+        setDownvoteColor(true);
       })
       .catch((error) => {
         console.log("error while trying to downvote", error);
       });
-
-    // if question had been already upvoted then remove that upvote (so that vote and downvote can not be triggered at the same time)
-    if (upvoteIconColor) {
-      setUpvoteIconColor(false);
-    }
   }
 
   return (
@@ -98,7 +171,7 @@ function QuestionAndAnswerPageQuestion() {
           <div className="vote-section flex flex-col gap-2 items-center pl-1 md:pl-3">
             <button
               className={`p-3 md:p-4 border border-primarycb rounded-[50%] ${
-                question?.upvote?.includes(user?.id ?? "") && "bg-primarycb"
+                upvoteColor && "bg-primarycb"
               }`}
               onClick={toggleUpvote}
             >
@@ -107,17 +180,14 @@ function QuestionAndAnswerPageQuestion() {
                 width="18"
                 height="18"
                 viewBox="0 0 18 18"
-                className={`${
-                  question?.upvote?.includes(user?.id ?? "") &&
-                  "fill-current text-white"
-                }`}
+                className={`${upvoteColor && "fill-current text-white"}`}
               >
                 <path d="M1 12h16L9 4l-8 8Z"></path>
               </svg>
             </button>
 
             <span className="text-xl md:text-2xl">
-              {/* this solves an error where nan is being rendered as child of span and a error is being thrown in the console */}
+              {/* this solves an error where NAN is being rendered as child of span and a error is being thrown in the console */}
               {question?.upvote && question?.downvote
                 ? question?.upvote?.length - question?.downvote?.length
                 : null}
@@ -125,7 +195,7 @@ function QuestionAndAnswerPageQuestion() {
 
             <button
               className={`p-3 md:p-4 border border-primarycb rounded-[50%] ${
-                question?.downvote?.includes(user?.id ?? "") && "bg-primarycb"
+                downvoteColor && "bg-primarycb"
               }`}
               onClick={toggleDownvote}
             >
@@ -134,10 +204,7 @@ function QuestionAndAnswerPageQuestion() {
                 width="18"
                 height="18"
                 viewBox="0 0 18 18"
-                className={`${
-                  question?.downvote?.includes(user?.id ?? "") &&
-                  "fill-current text-white"
-                }`}
+                className={`${downvoteColor && "fill-current text-white"}`}
               >
                 <path d="M1 6h16l-8 8-8-8Z"></path>
               </svg>

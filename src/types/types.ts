@@ -16,8 +16,8 @@ export interface questionType {
   title: string;
   bodyText: string;
   comments: commentType[];
-  upvote: string[];
-  downvote: string[];
+  upvote: (string | undefined)[];
+  downvote: (string | undefined)[];
   acceptedAnswer: string;
   views: number;
   tags: string[];
