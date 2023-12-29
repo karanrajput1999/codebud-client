@@ -8,12 +8,14 @@ import SERVER_URL from "@/serverUrl";
 import formattedTime from "@/utils/timeFormatter";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
-import { questionType } from "@/types/types";
+import { commentType, questionType } from "@/types/types";
+import moment from "moment";
 
 function QuestionAndAnswerPageQuestion() {
   const [upvoteColor, setUpvoteColor] = useState(false);
   const [downvoteColor, setDownvoteColor] = useState(false);
   const [question, setQuestion] = useState<questionType | null>(null);
+  const [comments, setComments] = useState<commentType[] | []>([]);
 
   const user = useSelector((state: RootState) => state.user.data);
 
@@ -24,6 +26,7 @@ function QuestionAndAnswerPageQuestion() {
       .get(`${SERVER_URL}/questions/${id}`)
       .then((res) => {
         setQuestion(res.data);
+        setComments(res.data.comments);
 
         if (res.data?.upvote?.includes(user?.id)) {
           setUpvoteColor(true);
@@ -39,6 +42,19 @@ function QuestionAndAnswerPageQuestion() {
         );
       });
   }, []);
+
+  // this function is for instant comment update so that user do not have to refresh to see his comment
+  function setLatestComments(commentText: string) {
+    const momentTime = moment();
+
+    const comment = {
+      commentText,
+      user: { id: user?.id, username: user?.username },
+      createdAt: momentTime.toDate(), // getting current time
+    };
+
+    setComments([...comments, comment]);
+  }
 
   function toggleUpvote() {
     axios
@@ -272,7 +288,8 @@ function QuestionAndAnswerPageQuestion() {
               </div>
             </div>
             <QuestionAndAnswerPageComments
-              comments={question?.comments || []}
+              comments={comments}
+              setLatestComments={setLatestComments}
             />
           </div>
         </div>

@@ -20,16 +20,18 @@ import { commentType } from "@/types/types";
 
 interface QuestionAndAnswerPageCommentType {
   comments: commentType[];
+  setLatestComments: (commentText: string) => void;
 }
 
 function QuestionAndAnswerPageComments({
   comments,
+  setLatestComments,
 }: QuestionAndAnswerPageCommentType) {
   const [toggleCommentForm, setToggleCommentForm] = useState(false);
   const { id } = useParams();
 
   const formSchema = z.object({
-    commentText: z.string().min(20),
+    commentText: z.string().min(20, "Comment must contain atleast 20 chars."),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -42,6 +44,9 @@ function QuestionAndAnswerPageComments({
   function postComment() {}
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    setLatestComments(values.commentText);
+    form.setValue("commentText", "");
+
     axios
       .post(`${SERVER_URL}/questions/${id}/comment`, values, {
         withCredentials: true,

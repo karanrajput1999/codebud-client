@@ -10,8 +10,8 @@ function QuestionAndAnswerPageComment({
 }: QuestionAndAnswerPageCommentType) {
   return (
     <div>
-      {comments?.map((comment) => (
-        <div className="comment border-b border-slate-200" key={comment.id}>
+      {comments?.map((comment, i) => (
+        <div className="comment border-b border-slate-200" key={i}>
           <div className="text-sm">
             <span>{comment.commentText}</span> <span>- </span>
             <span className="text-primarycb">
