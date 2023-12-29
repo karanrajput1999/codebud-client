@@ -1,5 +1,5 @@
 import { useState } from "react";
-import QuestionAndAnswerPageComments from "./QuestionAndAnswerPageComments";
+// import QuestionAndAnswerPageComments from "./QuestionAndAnswerPageComments";
 import QuestionAndAnswersPageUserCard from "./QuestionAndAnswersPageUserCard";
 
 function QuestionAndAnswerPageAnswer() {
