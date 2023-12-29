@@ -125,7 +125,8 @@ function QuestionAndAnswerPageAnswer() {
               <QuestionAndAnswersPageUserCard />
             </div>
           </div>
-          <QuestionAndAnswerPageComments />
+          {/* comments to be rendered later */}
+          {/* <QuestionAndAnswerPageComments /> */}
         </div>
       </div>
     </div>
