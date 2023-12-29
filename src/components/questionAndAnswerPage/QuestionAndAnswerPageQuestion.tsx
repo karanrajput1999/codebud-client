@@ -31,7 +31,6 @@ function QuestionAndAnswerPageQuestion() {
         if (res.data?.downvote?.includes(user?.id)) {
           setDownvoteColor(true);
         }
-        console.log("qna page was rendered");
       })
       .catch((error) => {
         console.log(
@@ -215,7 +214,7 @@ function QuestionAndAnswerPageQuestion() {
           <div className="question-main ql-snow">
             <div>
               <div
-                className="pr-2 ql-editor"
+                className="pr-2 pl-0 ql-editor"
                 dangerouslySetInnerHTML={{ __html: question?.bodyText || "" }}
               />
             </div>
@@ -272,7 +271,9 @@ function QuestionAndAnswerPageQuestion() {
                 <QuestionAndAnswersPageUserCard />
               </div>
             </div>
-            <QuestionAndAnswerPageComments />
+            <QuestionAndAnswerPageComments
+              comments={question?.comments || []}
+            />
           </div>
         </div>
       </div>

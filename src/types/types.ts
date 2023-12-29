@@ -31,4 +31,9 @@ export interface answerType {
 
 export interface commentType {
   id: string;
+  post: questionType;
+  user: userType;
+  commentText: string;
+  createdAt: string;
+  updatedAt: string;
 }
