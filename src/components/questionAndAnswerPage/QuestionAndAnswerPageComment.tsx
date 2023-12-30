@@ -3,10 +3,12 @@ import { commentType } from "@/types/types";
 
 interface QuestionAndAnswerPageCommentType {
   comments: commentType[];
+  deleteComment: (commentId: string) => void;
 }
 
 function QuestionAndAnswerPageComment({
   comments,
+  deleteComment,
 }: QuestionAndAnswerPageCommentType) {
   return (
     <div>
@@ -20,7 +22,12 @@ function QuestionAndAnswerPageComment({
           </div>
           <div className="comment-modification flex gap-2 text-sm mt-1">
             <button className="text-primarycb">Edit</button>
-            <button className="text-primarycb">Delete</button>
+            <button
+              className="text-primarycb"
+              onClick={() => deleteComment(comment.id)}
+            >
+              Delete
+            </button>
           </div>
         </div>
       ))}

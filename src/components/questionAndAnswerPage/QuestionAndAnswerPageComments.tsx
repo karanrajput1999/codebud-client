@@ -20,12 +20,14 @@ import { commentType } from "@/types/types";
 
 interface QuestionAndAnswerPageCommentType {
   comments: commentType[];
-  setLatestComments: (commentText: string) => void;
+  setLatestComments: (commentText: string, latestCommentId: string) => void;
+  deleteComment: (commentId: string) => void;
 }
 
 function QuestionAndAnswerPageComments({
   comments,
   setLatestComments,
+  deleteComment,
 }: QuestionAndAnswerPageCommentType) {
   const [toggleCommentForm, setToggleCommentForm] = useState(false);
   const { id } = useParams();
@@ -41,10 +43,7 @@ function QuestionAndAnswerPageComments({
     },
   });
 
-  function postComment() {}
-
   function onSubmit(values: z.infer<typeof formSchema>) {
-    setLatestComments(values.commentText);
     form.setValue("commentText", "");
 
     axios
@@ -53,6 +52,7 @@ function QuestionAndAnswerPageComments({
       })
       .then((res) => {
         console.log("posted comment", res);
+        setLatestComments(res.data.commentText, res.data.id);
       })
       .catch((error) => {
         console.log("error commenting", error);
@@ -70,7 +70,10 @@ function QuestionAndAnswerPageComments({
 
   return (
     <div className="comments-container mt-5 border-t border-slate-200">
-      <QuestionAndAnswerPageComment comments={comments} />
+      <QuestionAndAnswerPageComment
+        comments={comments}
+        deleteComment={deleteComment}
+      />
 
       <div
         className={`add-comment text-sm text-slate-500 py-2 border-b border-slate-200 ${
@@ -109,7 +112,6 @@ function QuestionAndAnswerPageComments({
                 <Button
                   type="submit"
                   className="text-white bg-primarycb hover:bg-primarycb hover:text-white"
-                  onClick={postComment}
                 >
                   Comment
                 </Button>

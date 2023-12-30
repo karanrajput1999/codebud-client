@@ -47,17 +47,36 @@ function QuestionAndAnswerPageQuestion() {
   }, []);
 
   // this function is for instant comment update so that user do not have to refresh to see his comment
-  function setLatestComments(commentText: string) {
+  function setLatestComments(commentText: string, latestCommentId: string) {
     const momentTime = moment();
 
     const comment = {
+      id: latestCommentId,
       commentText,
       user: { id: user?.id, username: user?.username },
       createdAt: momentTime.toDate(), // getting current time
     };
 
     // @ts-ignore
-    setComments([...comments, comment]); // ignored the typscript error because couldn't solveit :)
+    setComments([...comments, comment]); // ignored the typscript error because couldn't solve it :)
+  }
+
+  function deleteComment(commentId: string) {
+    console.log("comment delete function called", commentId);
+    axios
+      .delete(`${SERVER_URL}/questions/${id}/comment/${commentId}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        const remainingComments = comments?.filter(
+          (comment) => comment.id !== res.data.id
+        );
+
+        setComments([...remainingComments]);
+      })
+      .catch((error) => {
+        console.log("error while deleting comment", error);
+      });
   }
 
   function toggleUpvote() {
@@ -310,6 +329,7 @@ function QuestionAndAnswerPageQuestion() {
             <QuestionAndAnswerPageComments
               comments={comments}
               setLatestComments={setLatestComments}
+              deleteComment={deleteComment}
             />
           </div>
         </div>
