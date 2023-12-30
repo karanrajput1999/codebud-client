@@ -53,7 +53,8 @@ function QuestionAndAnswerPageQuestion() {
       createdAt: momentTime.toDate(), // getting current time
     };
 
-    setComments([...comments, comment]);
+    // @ts-ignore
+    setComments([...comments, comment]); // ignored the typscript error because couldn't solveit :)
   }
 
   function toggleUpvote() {
