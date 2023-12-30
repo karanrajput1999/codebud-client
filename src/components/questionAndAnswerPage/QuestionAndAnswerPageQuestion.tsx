@@ -3,12 +3,13 @@ import QuestionAndAnswerPageAnswers from "./QuestionAndAnswerPageAnswers";
 import QuestionAndAnswerPageComments from "./QuestionAndAnswerPageComments";
 import QuestionAndAnswersPageUserCard from "./QuestionAndAnswersPageUserCard";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import SERVER_URL from "@/serverUrl";
 import formattedTime from "@/utils/timeFormatter";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
 import { commentType, questionType } from "@/types/types";
+import { useNavigate } from "react-router-dom";
 import moment from "moment";
 
 function QuestionAndAnswerPageQuestion() {
@@ -20,6 +21,8 @@ function QuestionAndAnswerPageQuestion() {
   const user = useSelector((state: RootState) => state.user.data);
 
   const { id } = useParams();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -168,6 +171,18 @@ function QuestionAndAnswerPageQuestion() {
       });
   }
 
+  function deleteQuestion() {
+    axios
+      .delete(`${SERVER_URL}/questions/${id}`, { withCredentials: true })
+      .then((res) => {
+        console.log(res);
+        navigate("/homepage");
+      })
+      .catch((error) => {
+        console.log("error while delete question", error);
+      });
+  }
+
   return (
     <div>
       <div>
@@ -228,7 +243,7 @@ function QuestionAndAnswerPageQuestion() {
           </div>
 
           {/* ql-snow and ql-editor classNames are from to react quill so that it shows proper styles for code block */}
-          <div className="question-main ql-snow">
+          <div className="question-main ql-snow w-full">
             <div>
               <div
                 className="pr-2 pl-0 ql-editor"
@@ -280,8 +295,12 @@ function QuestionAndAnswerPageQuestion() {
             </div>
             <div className="qusetion-modification-user-card flex items-start justify-between mt-5 pr-2 ">
               <div className="flex gap-2">
-                <button className="text-primarycb">Edit</button>
-                <button className="text-primarycb">Delete</button>
+                <Link to={`/questions/${id}/edit`} className="text-primarycb">
+                  Edit
+                </Link>
+                <button className="text-primarycb" onClick={deleteQuestion}>
+                  Delete
+                </button>
                 <span>(show only when owner)</span>
               </div>
               <div className="user-card">

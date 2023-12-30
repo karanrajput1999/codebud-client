@@ -31,7 +31,7 @@ function QuestionAndAnswerPageComments({
   const { id } = useParams();
 
   const formSchema = z.object({
-    commentText: z.string().min(20, "Comment must contain atleast 20 chars."),
+    commentText: z.string().min(15, "Comment must contain atleast 15 chars."),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
