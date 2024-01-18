@@ -15,6 +15,7 @@ export interface questionType {
   userId: string;
   title: string;
   bodyText: string;
+  answers: answerType[];
   comments: commentType[];
   upvote: (string | undefined)[];
   downvote: (string | undefined)[];
@@ -27,6 +28,16 @@ export interface questionType {
 
 export interface answerType {
   id: string;
+  user: userType;
+  userId: string;
+  question: questionType;
+  questionId: string;
+  bodyText: string;
+  comments: commentType[];
+  upvote: string[];
+  downvote: string[];
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface commentType {

@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import QuestionAndAnswerPageAnswers from "./QuestionAndAnswerPageAnswers";
 import QuestionAndAnswerPageComments from "./QuestionAndAnswerPageComments";
 import QuestionAndAnswersPageUserCard from "./QuestionAndAnswersPageUserCard";
+import QuestionAndAnswerPageAnswerForm from "../questionAndAnswerPage/QuestionAndAnswerPageAnswerForm";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import SERVER_URL from "@/serverUrl";
 import formattedTime from "@/utils/timeFormatter";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
-import { commentType, questionType } from "@/types/types";
+import { answerType, commentType, questionType } from "@/types/types";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 
@@ -17,6 +18,7 @@ function QuestionAndAnswerPageQuestion() {
   const [downvoteColor, setDownvoteColor] = useState(false);
   const [question, setQuestion] = useState<questionType | null>(null);
   const [comments, setComments] = useState<commentType[] | []>([]);
+  const [answers, setAnswers] = useState<answerType[] | []>([]);
 
   const user = useSelector((state: RootState) => state.user.data);
 
@@ -30,6 +32,7 @@ function QuestionAndAnswerPageQuestion() {
       .then((res) => {
         setQuestion(res.data);
         setComments(res.data.comments);
+        setAnswers(res.data.answers);
 
         if (res.data?.upvote?.includes(user?.id)) {
           setUpvoteColor(true);
@@ -62,7 +65,6 @@ function QuestionAndAnswerPageQuestion() {
   }
 
   function deleteComment(commentId: string) {
-    console.log("comment delete function called", commentId);
     axios
       .delete(`${SERVER_URL}/questions/${id}/comment/${commentId}`, {
         withCredentials: true,
@@ -129,7 +131,7 @@ function QuestionAndAnswerPageQuestion() {
         setUpvoteColor(true);
       })
       .catch((error) => {
-        console.log("error while trying to upvote", error);
+        console.log("error while trying to upvote question", error);
       });
   }
 
@@ -141,8 +143,8 @@ function QuestionAndAnswerPageQuestion() {
         { withCredentials: true }
       )
       .then(() => {
-        const alreadyDownvoted = question?.downvote?.includes(user?.id ?? "");
         const alreadyUpvoted = question?.upvote?.includes(user?.id ?? "");
+        const alreadyDownvoted = question?.downvote?.includes(user?.id ?? "");
 
         const updateDecreasedUpvoteCount = question?.upvote?.filter(
           (userId) => userId !== user?.id
@@ -193,8 +195,7 @@ function QuestionAndAnswerPageQuestion() {
   function deleteQuestion() {
     axios
       .delete(`${SERVER_URL}/questions/${id}`, { withCredentials: true })
-      .then((res) => {
-        console.log(res);
+      .then(() => {
         navigate("/homepage");
       })
       .catch((error) => {
@@ -269,33 +270,7 @@ function QuestionAndAnswerPageQuestion() {
                 dangerouslySetInnerHTML={{ __html: question?.bodyText || "" }}
               />
             </div>
-            {/* <p className="question-text flex flex-col gap-3">
-                I have a pretty common (i guess) problem. Many of my projects
-                utilize nodejs, some for business logic, others only for some
-                building task.
-                <span>
-                  I need to have different runtime in different projects, one of
-                  my electron apps requires node 7.10.0, a typical build suite
-                  requires node 8.x.
-                </span>{" "}
-                <span>
-                  Now i know - i can use sudo n 7.10.0 or sudo n latest to
-                  switch the runtime globally on my computer (For those, who
-                  dont know this - have a look at "n")
-                </span>
-                <span>
-                  Anyway, IMO this is not so convenient (some times, i need to
-                  rebuild all the modules after switching versions, often i
-                  forget to switch and so on). Is there a way of telling node
-                  which interpreter to use? Can i use a .npmrc file in a project
-                  directory to force a specific nodejs version within that
-                  subdirectory?
-                </span>
-                <span>
-                  I searched exactly for this (npmrc node version) but was not
-                  lucky enough to find something.
-                </span>
-              </p> */}
+
             <div className="question-tags-container text-xs flex gap-3 mt-5">
               {question?.tags?.map((tag, i) => (
                 <span
@@ -323,12 +298,16 @@ function QuestionAndAnswerPageQuestion() {
                 <span>(show only when owner)</span>
               </div>
               <div className="user-card">
-                <QuestionAndAnswersPageUserCard />
+                <QuestionAndAnswersPageUserCard
+                  user={question?.user}
+                  question={question}
+                />
               </div>
             </div>
             <QuestionAndAnswerPageComments
               comments={comments}
               setLatestComments={setLatestComments}
+              setComments={setComments}
               deleteComment={deleteComment}
             />
           </div>
@@ -338,7 +317,19 @@ function QuestionAndAnswerPageQuestion() {
         <span className=" text-xl md:text-2xl">1 Answer</span>
         <div>Sort Answers</div>
       </div>
-      <QuestionAndAnswerPageAnswers />
+      <div>
+        <QuestionAndAnswerPageAnswers
+          answers={answers}
+          setAnswers={setAnswers}
+        />
+      </div>
+
+      <div>
+        <QuestionAndAnswerPageAnswerForm
+          answers={answers}
+          setAnswers={setAnswers}
+        />
+      </div>
     </div>
   );
 }

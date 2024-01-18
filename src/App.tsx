@@ -22,6 +22,7 @@ import { useDispatch } from "react-redux";
 import { fetchUser } from "./features/fetchUser/fetchUserSlice";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import EditQuestionForm from "./components/edit/editQuestion/EditQuestionForm";
+import EditAnswer from "./components/edit/editAnswer/EditAnswer";
 
 // Though we do not need App.jsx file but i just wanted to use it (I don't know why :|).
 function App() {
@@ -67,6 +68,11 @@ function App() {
         <Route
           path="questions/:id/edit"
           element={<ProtectedRoute Component={EditQuestionForm} />}
+        />
+        {/* route to edit answer */}
+        <Route
+          path="questions/:id/answer/:answerId/edit"
+          element={<ProtectedRoute Component={EditAnswer} />}
         />
       </Route>
     )

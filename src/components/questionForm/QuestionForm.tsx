@@ -159,36 +159,3 @@ function QuestionForm() {
 }
 
 export default QuestionForm;
-
-{
-  /* <form className="flex flex-col gap-4">
-<div className="flex flex-col gap-2">
-  <label htmlFor="question-title" className="font-bold">
-    Title
-  </label>
-  <Input
-    type="text"
-    id="question-title"
-    name="question-title"
-    placeholder="eg: How to center a div?"
-  />
-</div> */
-}
-{
-  /* Question editor */
-}
-{
-  /* <div className="flex flex-col gap-2">
-  <label htmlFor="question-body" className="font-bold">
-    Body
-  </label>
-  <QuestionEditor />
-</div>
-<QuestionTagInput />
-<div className="flex justify-end">
-  <Button type="submit" className="bg-primarycb">
-    Post your question
-  </Button>
-</div>
-</form> */
-}

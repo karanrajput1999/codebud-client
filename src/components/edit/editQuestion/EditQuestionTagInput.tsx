@@ -44,7 +44,6 @@ function EditQuestionTagInput({ tags, setTags }: tagsType) {
         // adding this extra space (" ") helps to not delete the last letter when pressed backspace for the first time
         setTagInputValue(lastTag + " ");
     }
-    console.log("BACKSPACE ERROR", e);
   }
 
   function deleteTag(

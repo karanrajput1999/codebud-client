@@ -1,6 +1,6 @@
 import moment from "moment";
 
-function formattedTime(time: string) {
+function formattedTime(time: string | undefined) {
   return moment(time).fromNow();
 }
 

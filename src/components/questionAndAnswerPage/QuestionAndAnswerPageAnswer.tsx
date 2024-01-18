@@ -1,67 +1,445 @@
-import { useState } from "react";
-// import QuestionAndAnswerPageComments from "./QuestionAndAnswerPageComments";
+import { useEffect, useState } from "react";
 import QuestionAndAnswersPageUserCard from "./QuestionAndAnswersPageUserCard";
+import { answerType, commentType } from "@/types/types";
+import axios from "axios";
+import SERVER_URL from "@/serverUrl";
+import { Link, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/store";
+import QuestionAndAnswerPageAnswerComments from "./QuestionAndAnswerPageAnswerComments";
 
-function QuestionAndAnswerPageAnswer() {
-  const [upvoteIconColor, setUpvoteIconColor] = useState(false);
-  const [downvoteIconColor, setDownvoteIconColor] = useState(false);
+interface QuestionAndAnswerPageAnswerType {
+  answer: answerType;
+  setAnswers: (
+    value: answerType[] | ((prev: answerType[]) => answerType[])
+  ) => void;
+}
+
+function QuestionAndAnswerPageAnswer({
+  answer,
+  setAnswers,
+}: QuestionAndAnswerPageAnswerType) {
+  const [upvoteColor, setUpvoteColor] = useState<{ [key: string]: boolean }>(
+    {}
+  );
+  // const [answerComments, setAnswerComments] = useState<{
+  //   [key: string]: commentType[];
+  // }>({});
+  const [answerComments, setAnswerComments] = useState<{
+    [key: string]: commentType[];
+  }>({});
+  const [downvoteColor, setDownvoteColor] = useState<{
+    [key: string]: boolean;
+  }>({});
   const [acceptAnswerIconColor, setAcceptAnswerIconColor] = useState(false);
 
-  function toggleUpvotingColor() {
-    setUpvoteIconColor(!upvoteIconColor);
+  const { id } = useParams();
 
-    // if question had been already downvoted then remove that downvote (so that vote and downvote can not be triggered at the same time)
-    if (downvoteIconColor) {
-      setDownvoteIconColor(false);
-    }
-  }
-  function toggleDownvotingColor() {
-    setDownvoteIconColor(!downvoteIconColor);
+  const user = useSelector((state: RootState) => state.user.data);
 
-    // if question had been already upvoted then remove that upvote (so that vote and downvote can not be triggered at the same time)
-    if (upvoteIconColor) {
-      setUpvoteIconColor(false);
+  useEffect(() => {
+    const alreadyUpvoted = answer?.upvote?.includes(user?.id ?? "");
+    const alreadyDownvoted = answer?.downvote?.includes(user?.id ?? "");
+
+    setAnswerComments((prev) => ({
+      ...prev,
+      [answer?.id]: answer?.comments,
+    }));
+
+    if (alreadyUpvoted) {
+      setUpvoteColor((prev) => ({ ...prev, [answer?.id]: true }));
     }
+    if (alreadyDownvoted) {
+      setDownvoteColor((prev) => ({ ...prev, [answer?.id]: true }));
+    }
+  }, [answer]);
+
+  function toggleUpvote(answerId: string) {
+    axios
+      .patch(
+        `${SERVER_URL}/questions/${id}/answer/${answerId}/upvote`,
+        {},
+        { withCredentials: true }
+      )
+      .then(() => {
+        // const clickedAnswer = answers.find((answer) => answer.id === answerId);
+        // const clickedAnswerId = clickedAnswer?.id;
+        const alreadyUpvoted = answer?.upvote?.includes(user?.id || "");
+        const alreadyDownvoted = answer?.downvote?.includes(user?.id || "");
+
+        const decreaseUpvoteCount = answer?.upvote?.filter(
+          (userId) => userId !== user?.id
+        );
+        const decreaseDownvoteCount = answer?.downvote?.filter(
+          (userId) => userId !== user?.id
+        );
+
+        const increaseUpvoteCount = [...answer?.upvote, user?.id];
+
+        const increaseUpvoteCountInAnswer = {
+          ...answer,
+          upvote: increaseUpvoteCount.map((vote) => vote || ""), // Ensuring each value is a string removing the map function gives typescript error because upvote array expects string value but "increaseUpvoteCount" might give undefined,
+        };
+
+        if (alreadyUpvoted) {
+          const decreaseUpvoteCountInAnswer = {
+            ...answer,
+            upvote: decreaseUpvoteCount,
+          };
+
+          // const updateAnswerInOriginalAnswersAlreadyUpvoted = answers?.map(
+          //   (answer) => {
+          //     if (answer.id === clickedAnswer?.id) {
+          //       return decreaseUpvoteCountInAnswer;
+          //     } else {
+          //       return answer;
+          //     }
+          //   }
+          // );
+
+          // setAnswers((prev: answerType[]) => [
+          //   ...prev,
+          //   decreaseUpvoteCountInAnswer,
+          // ]);
+
+          // setAnswers((prev: answerType[]) => {
+          //   const filteredAnswers = prev.filter(
+          //     (otherAns) => otherAns.id !== answer.id
+          //   );
+          //   return [...filteredAnswers, decreaseUpvoteCountInAnswer];
+          // });
+
+          setAnswers((prev: answerType[]) => {
+            return prev.map((otherAns) => {
+              if (otherAns.id === answer.id) {
+                return decreaseUpvoteCountInAnswer;
+              } else {
+                return otherAns;
+              }
+            });
+          });
+
+          setUpvoteColor((prev) => ({ ...prev, [answer?.id]: false }));
+
+          return;
+        }
+
+        if (alreadyDownvoted) {
+          const decreaseDownvoteCountAndIncreaseUpvoteInAnswer = {
+            ...answer,
+            upvote: increaseUpvoteCount.map((vote) => vote || ""), // Ensuring each value is a string removing the map function gives typescript error because upvote array expects string value but "increaseUpvoteCount" might give undefined,
+            downvote: decreaseDownvoteCount,
+          };
+
+          // const updateAnswerInOriginalAnswersAlreadyDownvoted = answers?.map(
+          //   (answer) => {
+          //     if (answer.id === clickedAnswer?.id) {
+          //       return decreaseDownvoteCountAndIncreaseUpvoteInAnswer;
+          //     } else {
+          //       return answer;
+          //     }
+          //   }
+          // );
+
+          // setAnswers((prev: answerType[]) => [
+          //   ...prev,
+          //   decreaseDownvoteCountAndIncreaseUpvoteInAnswer,
+          // ]);
+          // setAnswers((prev: answerType[]) => {
+          //   const filteredAnswers = prev.filter(
+          //     (otherAns) => otherAns.id !== answer.id
+          //   );
+          //   return [
+          //     ...filteredAnswers,
+          //     decreaseDownvoteCountAndIncreaseUpvoteInAnswer,
+          //   ];
+          // });
+          setAnswers((prev: answerType[]) => {
+            return prev.map((otherAns) => {
+              if (otherAns.id === answer.id) {
+                return decreaseDownvoteCountAndIncreaseUpvoteInAnswer;
+              } else {
+                return otherAns;
+              }
+            });
+          });
+          setUpvoteColor((prev) => ({ ...prev, [answer?.id]: true }));
+          setDownvoteColor((prev) => ({ ...prev, [answer?.id]: false }));
+          return;
+        }
+
+        // const updateAnswerInOriginalAnswersNotUpvoted = answers?.map(
+        //   (answer) => {
+        //     if (answer.id === clickedAnswer?.id) {
+        //       return increaseUpvoteCountInAnswer;
+        //     } else {
+        //       return answer;
+        //     }
+        //   }
+        // );
+
+        // setAnswers((prev: answerType[]) => [
+        //   ...prev,
+        //   increaseUpvoteCountInAnswer,
+        // ]);
+        // setAnswers((prev: answerType[]) => {
+        //   const filteredAnswers = prev.filter(
+        //     (otherAns) => otherAns.id !== answer.id
+        //   );
+        //   return [...filteredAnswers, increaseUpvoteCountInAnswer];
+        // });
+        setAnswers((prev: answerType[]) => {
+          return prev.map((otherAns) => {
+            if (otherAns.id === answer.id) {
+              return increaseUpvoteCountInAnswer;
+            } else {
+              return otherAns;
+            }
+          });
+        });
+        setUpvoteColor((prev) => ({ ...prev, [answer?.id]: true }));
+      })
+      .catch((error) => {
+        console.log("error while trying to upvote answer", error);
+      });
   }
+  function toggleDownvote(answerId: string) {
+    axios
+      .patch(
+        `${SERVER_URL}/questions/${id}/answer/${answerId}/downvote`,
+        {},
+        { withCredentials: true }
+      )
+      .then(() => {
+        // const clickedAnswer = answers.find((answer) => answer.id === answerId);
+        // const answer?.id = clickedAnswer?.id;
+        const alreadyUpvoted = answer?.upvote?.includes(user?.id || "");
+        const alreadyDownvoted = answer?.downvote?.includes(user?.id || "");
+
+        const decreaseUpvoteCount = answer?.upvote?.filter(
+          (userId) => userId !== user?.id
+        );
+
+        const decreaseDownvoteCount = answer?.downvote?.filter(
+          (userId) => userId !== user?.id
+        );
+
+        const increaseDownvoteCount = [...answer?.downvote, user?.id];
+
+        const decreaseUpvoteCountInAnswer = {
+          ...answer,
+          downvote: increaseDownvoteCount.map((vote) => vote || ""), // have given explaination above that why we are using map here,
+        };
+
+        if (alreadyUpvoted) {
+          const decreaseUpvoteCountAndIncreaseDownvoteInAnswer = {
+            ...answer,
+            upvote: decreaseUpvoteCount.map((vote) => vote || ""), // have given explaination above that why we are using map here
+            downvote: increaseDownvoteCount.map((vote) => vote || ""),
+          };
+
+          // const updateAnswerInOriginalAnswersAlreadyUpvoted = answers?.map(
+          //   (answer) => {
+          //     if (answer.id === clickedAnswer?.id) {
+          //       return decreaseUpvoteCountAndIncreaseDownvoteInAnswer;
+          //     } else {
+          //       return answer;
+          //     }
+          //   }
+          // );
+          // setAnswers((prev: answerType[]) => [
+          //   ...prev,
+          //   decreaseUpvoteCountAndIncreaseDownvoteInAnswer,
+          // ]);
+          setAnswers((prev: answerType[]) => {
+            return prev.map((otherAns) => {
+              if (otherAns.id === answer.id) {
+                return decreaseUpvoteCountAndIncreaseDownvoteInAnswer;
+              } else {
+                return otherAns;
+              }
+            });
+          });
+
+          setUpvoteColor((prev) => ({ ...prev, [answer?.id]: false }));
+          setDownvoteColor((prev) => ({ ...prev, [answer?.id]: true }));
+          return;
+        }
+
+        if (alreadyDownvoted) {
+          const decreaseDownvoteCountInAnswer = {
+            ...answer,
+            downvote: decreaseDownvoteCount.map((vote) => vote || ""), // have given explaination above that why we are using map here,
+          };
+
+          // const updateAnswerInOriginalAnswersAlreadyDownvoted = answers?.map(
+          //   (answer) => {
+          //     if (answer.id === clickedAnswer?.id) {
+          //       return decreaseDownvoteCountInAnswer;
+          //     } else {
+          //       return answer;
+          //     }
+          //   }
+          // );
+
+          // setAnswers((prev: answerType[]) => [
+          //   ...prev,
+          //   decreaseDownvoteCountInAnswer,
+          // ]);
+
+          setAnswers((prev: answerType[]) => {
+            return prev.map((otherAns) => {
+              if (otherAns.id === answer.id) {
+                return decreaseDownvoteCountInAnswer;
+              } else {
+                return otherAns;
+              }
+            });
+          });
+          setDownvoteColor((prev) => ({ ...prev, [answer?.id]: false }));
+          return;
+        }
+
+        // const updateAnswerInOriginalAnswersNotDownvoted = answers?.map(
+        //   (answer) => {
+        //     if (answer.id === clickedAnswer?.id) {
+        //       return decreaseUpvoteCountInAnswer;
+        //     } else {
+        //       return answer;
+        //     }
+        //   }
+        // );
+
+        // setAnswers((prev: answerType[]) => [
+        //   ...prev,
+        //   decreaseUpvoteCountInAnswer,
+        // ]);
+        setAnswers((prev: answerType[]) => {
+          return prev.map((otherAns) => {
+            if (otherAns.id === answer.id) {
+              return decreaseUpvoteCountInAnswer;
+            } else {
+              return otherAns;
+            }
+          });
+        });
+        setUpvoteColor((prev) => ({ ...prev, [answer?.id]: false }));
+        setDownvoteColor((prev) => ({ ...prev, [answer?.id]: true }));
+      })
+      .catch((error) => {
+        console.log("error while trying to upvote answer", error);
+      });
+  }
+
+  // function toggleUpvotingColor() {
+  //   setUpvoteColor(!upvoteColor); // HERE
+
+  // if question had been already downvoted then remove that downvote (so that vote and downvote can not be triggered at the same time)
+  //   if (downvoteColor) {
+  //     // HERE
+  //     setDownvoteColor(false);
+  //   }
+  // }
+  // function toggleDownvotingColor() {
+  //   setDownvoteColor(!downvoteColor); // HERE
+
+  // if question had been already upvoted then remove that upvote (so that vote and downvote can not be triggered at the same time)
+  //   if (upvoteColor) {
+  //     // HERE
+  //     setUpvoteColor(false);
+  //   }
+  // }
   function toggleAcceptAnswerColor() {
     setAcceptAnswerIconColor(!acceptAnswerIconColor);
   }
 
+  function deleteAnswer(answerId: string) {
+    axios
+      .delete(`${SERVER_URL}/questions/${id}/answer/${answerId}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res.data);
+        // const remainingAnswers = answers.filter(
+        //   (answer) => answer.id !== answerId
+        // );
+
+        setAnswers((prev) => {
+          return prev.filter((otherAnswer) => otherAnswer.id !== answerId);
+        });
+      })
+      .catch((error) => {
+        console.log("error while delete answer", error);
+      });
+  }
+
+  function deleteComment(commentId: string) {
+    axios
+      .delete(
+        `${SERVER_URL}/questions/${id}/answer/${answer.id}/comment/${commentId}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        const remainingComments = answerComments[answer.id]?.filter(
+          (comment) => comment.id !== res.data.id
+        );
+
+        setAnswerComments((prev) => ({
+          ...prev,
+          [answer?.id]: remainingComments,
+        }));
+      })
+      .catch((error) => {
+        console.log("error while deleting comment", error);
+      });
+  }
+
   return (
     <div>
-      <div className="question-section flex gap-2 md:gap-5 pt-2">
+      <div
+        className="question-section flex gap-2 md:gap-5 pt-2"
+        key={answer?.id}
+      >
         <div className="vote-section flex flex-col gap-2 items-center pl-1 md:pl-3">
           <button
             className={`p-3 md:p-4 border border-primarycb rounded-[50%] ${
-              upvoteIconColor && "bg-primarycb"
+              upvoteColor[answer?.id] && "bg-primarycb" // HERE
             }`}
-            onClick={toggleUpvotingColor}
+            onClick={() => toggleUpvote(answer?.id)}
           >
             <svg
               aria-hidden="true"
               width="18"
               height="18"
               viewBox="0 0 18 18"
-              className={`${upvoteIconColor && "fill-current text-white"}`}
+              className={`${
+                upvoteColor[answer?.id] && "fill-current text-white"
+              }`} // HERE
             >
               <path d="M1 12h16L9 4l-8 8Z"></path>
             </svg>
           </button>
 
-          <span className="text-xl md:text-2xl">15</span>
+          <span className="text-xl md:text-2xl">
+            {answer?.upvote?.length - answer?.downvote?.length}
+          </span>
 
           <button
             className={`p-3 md:p-4 border border-primarycb rounded-[50%] ${
-              downvoteIconColor && "bg-primarycb"
+              downvoteColor[answer?.id] && "bg-primarycb" // HERE
             }`}
-            onClick={toggleDownvotingColor}
+            onClick={() => toggleDownvote(answer?.id)}
           >
             <svg
               aria-hidden="true"
               width="18"
               height="18"
               viewBox="0 0 18 18"
-              className={`${downvoteIconColor && "fill-current text-white"}`}
+              className={`${
+                downvoteColor[answer?.id] && "fill-current text-white"
+              }`} // HERE
             >
               <path d="M1 6h16l-8 8-8-8Z"></path>
             </svg>
@@ -84,49 +462,47 @@ function QuestionAndAnswerPageAnswer() {
           </button>
         </div>
 
-        <div className="question-main ">
+        <div className="answer-main ql-snow w-full">
           <div className="pr-2">
-            <p className="question-text flex flex-col gap-3">
-              I have a pretty common (i guess) problem. Many of my projects
-              utilize nodejs, some for business logic, others only for some
-              building task.
-              <span>
-                I need to have different runtime in different projects, one of
-                my electron apps requires node 7.10.0, a typical build suite
-                requires node 8.x.
-              </span>{" "}
-              <span>
-                Now i know - i can use sudo n 7.10.0 or sudo n latest to switch
-                the runtime globally on my computer (For those, who dont know
-                this - have a look at "n")
-              </span>
-              <span>
-                Anyway, IMO this is not so convenient (some times, i need to
-                rebuild all the modules after switching versions, often i forget
-                to switch and so on). Is there a way of telling node which
-                interpreter to use? Can i use a .npmrc file in a project
-                directory to force a specific nodejs version within that
-                subdirectory?
-              </span>
-              <span>
-                I searched exactly for this (npmrc node version) but was not
-                lucky enough to find something.
-              </span>
-            </p>
+            {/* <p className="answer-text flex flex-col gap-3"> */}
+            <div
+              className="pr-2 pl-0 ql-editor"
+              dangerouslySetInnerHTML={{ __html: answer?.bodyText || "" }}
+            />
+            {/* </p> */}
           </div>
 
           <div className="qusetion-modification-user-card flex items-start justify-between mt-5 pr-2 ">
             <div className="flex gap-2">
-              <button className="text-primarycb">Edit</button>
-              <button className="text-primarycb">Delete</button>
+              <Link
+                to={`/questions/${id}/answer/${answer?.id}/edit`}
+                className="text-primarycb"
+              >
+                Edit
+              </Link>
+              <button
+                className="text-primarycb"
+                onClick={() => deleteAnswer(answer?.id)}
+              >
+                Delete
+              </button>
               <span>(show only when owner)</span>
             </div>
             <div className="user-card">
-              <QuestionAndAnswersPageUserCard />
+              <QuestionAndAnswersPageUserCard
+                user={answer?.user}
+                question={answer}
+              />
             </div>
           </div>
-          {/* comments to be rendered later */}
-          {/* <QuestionAndAnswerPageComments /> */}
+
+          <QuestionAndAnswerPageAnswerComments
+            answerId={answer?.id}
+            answerComments={answerComments[answer?.id]}
+            // @ts-ignore
+            setAnswerComments={setAnswerComments}
+            deleteComment={deleteComment}
+          />
         </div>
       </div>
     </div>

@@ -62,7 +62,6 @@ function EditQuestionForm() {
   );
 
   const editQuestion = questions?.find((question) => question.id === id);
-  console.log("edit question here", editQuestion);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

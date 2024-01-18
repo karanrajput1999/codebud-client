@@ -1,5 +1,4 @@
-import QuestionAndAnswerPageComment from "./QuestionAndAnswerPageComment";
-import { Dispatch, SetStateAction, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import axios from "axios";
@@ -15,22 +14,24 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import QuestionAndAnswerPageAnswerComment from "./QuestionAndAnswerPageAnswerComment";
 import { commentType } from "@/types/types";
 
-interface QuestionAndAnswerPageCommentType {
-  comments: commentType[];
-  setComments: Dispatch<SetStateAction<commentType[] | []>>;
-  setLatestComments: (commentText: string, latestCommentId: string) => void;
+interface QuestionAndAnswerPageAnswerCommentsType {
+  answerComments: commentType[];
+  setAnswerComments: (
+    val: boolean | ((prev: { [key: string]: boolean }) => void)
+  ) => void;
+  answerId: string;
   deleteComment: (commentId: string) => void;
 }
 
-function QuestionAndAnswerPageComments({
-  comments,
-  setLatestComments,
-  setComments,
+function QuestionAndAnswerPageAnswerComments({
+  answerComments,
+  setAnswerComments,
+  answerId,
   deleteComment,
-}: QuestionAndAnswerPageCommentType) {
+}: QuestionAndAnswerPageAnswerCommentsType) {
   // this form is for editing the comment
   const [editCommentForm, setEditCommentForm] = useState<{
     [key: string]: boolean;
@@ -63,11 +64,26 @@ function QuestionAndAnswerPageComments({
     form.setValue("commentText", "");
 
     axios
-      .post(`${SERVER_URL}/questions/${id}/comment`, values, {
-        withCredentials: true,
-      })
+      .post(
+        `${SERVER_URL}/questions/${id}/answer/${answerId}/comment`,
+        { ...values, answerId },
+        {
+          withCredentials: true,
+        }
+      )
       .then((res) => {
-        setLatestComments(res.data.commentText, res.data.id);
+        // setLatestComments(res.data.commentText, res.data.id);
+
+        // this prevents an error if there is no comments on an answer.
+        {
+          answerComments
+            ? setAnswerComments((prev: { [key: string]: boolean }) => ({
+                ...prev,
+                [answerId]: [...answerComments, res.data],
+              }))
+            : // @ts-ignore
+              setAnswerComments({ [answerId]: [res.data] });
+        }
       })
       .catch((error) => {
         console.log("error commenting", error);
@@ -85,15 +101,16 @@ function QuestionAndAnswerPageComments({
 
   return (
     <div className="comments-container mt-5 border-t border-slate-200">
-      <QuestionAndAnswerPageComment
-        comments={comments}
-        deleteComment={deleteComment}
+      <QuestionAndAnswerPageAnswerComment
+        answerComments={answerComments}
         // @ts-ignore
+        setAnswerComments={setAnswerComments}
+        deleteComment={deleteComment}
         editCommentForm={editCommentForm}
         setEditCommentForm={setEditCommentForm}
         showEditCommentForm={showEditCommentForm}
         cancelEditCommentForm={cancelEditCommentForm}
-        setComments={setComments}
+        answerId={answerId}
       />
 
       <div
@@ -151,4 +168,4 @@ function QuestionAndAnswerPageComments({
   );
 }
 
-export default QuestionAndAnswerPageComments;
+export default QuestionAndAnswerPageAnswerComments;

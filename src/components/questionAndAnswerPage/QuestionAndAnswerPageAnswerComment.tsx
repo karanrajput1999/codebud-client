@@ -1,31 +1,32 @@
 import formattedTime from "@/utils/timeFormatter";
 import { commentType } from "@/types/types";
-import EditCommentForm from "../edit/editComment/EditCommentForm";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import EditAnswerCommentForm from "../edit/editAnswerComment/EditAnswerCommentForm";
 import { Dispatch, SetStateAction } from "react";
 
-import * as z from "zod";
-
-interface QuestionAndAnswerPageCommentType {
-  comments: commentType[];
-  setComments: Dispatch<SetStateAction<commentType[] | []>>;
-  deleteComment: (commentId: string) => void;
-  editCommentForm: boolean;
+interface QuestionAndAnswerPageAnswerCommentType {
+  answerComments: commentType[];
+  editCommentForm: { [key: string]: boolean };
   setEditCommentForm: Dispatch<SetStateAction<{ [key: string]: boolean }>>;
   showEditCommentForm: (commentId: string) => void;
   cancelEditCommentForm: (commentId: string) => void;
+  deleteComment: (commentId: string) => void;
+  setAnswerComments: SetStateAction<commentType[]>;
+  answerId: string;
 }
 
-function QuestionAndAnswerPageComment({
-  comments,
-  setComments,
-  deleteComment,
+function QuestionAndAnswerPageAnswerComment({
+  answerComments,
   editCommentForm,
   setEditCommentForm,
   showEditCommentForm,
   cancelEditCommentForm,
-}: QuestionAndAnswerPageCommentType) {
+  deleteComment,
+  setAnswerComments,
+  answerId,
+}: QuestionAndAnswerPageAnswerCommentType) {
   // this form is for editing the comment
   // const [editCommentForm, setEditCommentForm] = useState({});
 
@@ -46,7 +47,10 @@ function QuestionAndAnswerPageComment({
     editedCommentValue: string
   ) {
     form.setValue("commentText", editedCommentValue);
-    setEditCommentForm((prev) => ({ ...prev, [commentId]: true }));
+    setEditCommentForm((prev: { [key: string]: boolean }) => ({
+      ...prev,
+      [commentId]: true,
+    }));
   }
 
   // function showEditCommentForm(commentId: string) {
@@ -57,24 +61,29 @@ function QuestionAndAnswerPageComment({
   //   setEditCommentForm((prev) => ({ ...prev, [commentId]: false }));
   // }
 
+  // console.log("comments in answer main component", answerComments);
+
   return (
     <div>
-      {comments?.map((comment, i) => (
+      {answerComments?.map((comment, i) => (
         <div key={i}>
-          {/* @ts-ignore */}
           {editCommentForm[comment?.id] ? (
-            <EditCommentForm
-              setComments={setComments}
-              comments={comments}
+            <EditAnswerCommentForm
+              // setComments={setComments}
+              // comments={comments}
               editCommentForm={editCommentForm}
               cancelEditCommentForm={() => cancelEditCommentForm(comment.id)}
               commentId={comment.id}
+              answerComments={answerComments}
+              setAnswerComments={setAnswerComments}
+              answerId={answerId}
+              formSchema={formSchema}
               form={form}
             />
           ) : (
             <div className="comment border-b border-slate-200">
               <div className="text-sm">
-                <span>{comment.commentText}</span> <span>- </span>
+                <span>{comment?.commentText}</span> <span>- </span>
                 <span className="text-primarycb">
                   {comment?.user?.username} {formattedTime(comment?.createdAt)}
                 </span>
@@ -84,7 +93,7 @@ function QuestionAndAnswerPageComment({
                   className="text-primarycb"
                   onClick={() => {
                     showEditCommentForm(comment.id);
-                    getEditCommentFormValue(comment.id, comment.commentText);
+                    getEditCommentFormValue(comment.id, comment?.commentText);
                   }}
                 >
                   Edit
@@ -104,4 +113,4 @@ function QuestionAndAnswerPageComment({
   );
 }
 
-export default QuestionAndAnswerPageComment;
+export default QuestionAndAnswerPageAnswerComment;
